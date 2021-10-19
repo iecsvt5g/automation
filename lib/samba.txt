@@ -1,0 +1,175 @@
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                             0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        146.86Mb     12.26K            3.12Mb      6.16K      
+   qdisc none (fq_codel)                      0           0             2.73Mb      6.17K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        720.67Mb     60.06K           15.08Mb     30.16K      
+   qdisc none (fq_codel)                      0           0            13.15Mb     30.16K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        865.97Mb     72.17K           18.12Mb     36.25K      
+   qdisc none (fq_codel)                      0           0            15.80Mb     36.25K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        898.96Mb     74.92K           18.80Mb     37.62K      
+   qdisc none (fq_codel)                      0           0            16.40Mb     37.62K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        906.42Mb     75.54K           18.96Mb     37.94K      
+   qdisc none (fq_codel)                      0           0            16.53Mb     37.94K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        907.70Mb     75.65K           18.98Mb     37.99K      
+   qdisc none (fq_codel)                      0           0            16.55Mb     37.99K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        908.80Mb     75.74K           19.00Mb     38.03K      
+   qdisc none (fq_codel)                      0           0            16.57Mb     38.03K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        916.03Mb     76.34K           19.15Mb     38.34K      
+   qdisc none (fq_codel)                      0           0            16.70Mb     38.34K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        918.33Mb     76.53K           19.19Mb     38.42K      
+   qdisc none (fq_codel)                      0           0            16.74Mb     38.42K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        907.32Mb     75.62K           18.99Mb     37.98K      
+   qdisc none (fq_codel)                      0           0            16.56Mb     37.98K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        908.32Mb     75.70K           19.01Mb     38.02K      
+   qdisc none (fq_codel)                      0           0            16.58Mb     38.02K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        814.74Mb     67.98K           17.28Mb     34.19K      
+   qdisc none (fq_codel)                      0           0            15.09Mb     34.19K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        203.77Mb     17.06K            4.49Mb      8.61K      
+   qdisc none (fq_codel)                      0           0             3.94Mb      8.61K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                         50.94Mb      4.26K            1.12Mb      2.15K      
+   qdisc none (fq_codel)                      0           0           984.29Kb      2.15K      
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                         12.74Mb      1.07K          280.53Kb       538       
+   qdisc none (fq_codel)                      0           0           246.07Kb       538       
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                          3.19Mb       268            84.14Kb       137       
+   qdisc none (fq_codel)                      0           0            75.34Kb       137       
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        797.10Kb        67            21.03Kb        34       
+   qdisc none (fq_codel)                      0           0            18.83Kb        34       
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                        217.90Kb        31            27.21Kb        21       
+   qdisc none (fq_codel)                      0           0            25.84Kb        21       
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                         54.47Kb         7             6.80Kb         5       
+   qdisc none (fq_codel)                      0           0             6.46Kb         5       
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                         13.62Kb         1             1.70Kb         1       
+   qdisc none (fq_codel)                      0           0             1.61Kb         1       
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                          3.40Kb         0              424b          0       
+   qdisc none (fq_codel)                      0           0              400b          0       
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                           848b          0              104b          0       
+   qdisc none (fq_codel)                      0           0               96b          0       
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                          3.30Kb         3             3.58Kb         3       
+   qdisc none (fq_codel)                      0           0             3.38Kb         3       
+Interfaces                               RX bps         pps      %    TX bps         pps      %
+  lo                                          0           0                0           0       
+   qdisc none (noqueue)                       0           0                0           0       
+  enp0s25                                     0           0                0           0       
+   qdisc none (fq_codel)                      0           0                0           0       
+  enx000ec686cb35                           824b          0              888b          0       
+   qdisc none (fq_codel)                      0           0              840b          0       
