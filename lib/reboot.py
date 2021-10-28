@@ -32,6 +32,6 @@ class reboot_machine(object):
 	def ssh_ip(self, ip):
 		system('ssh -t -l zl ' + ip + ' \"ifconfig enp0s3 | grep "inet " | awk {\'print $2\'}\"')
 
-if __name__ == "__main__":
-	r = reboot_machine()
-	r.reboot(2, '172.20.10.5')
+# if __name__ == "__main__":
+# 	r = reboot_machine()
+# 	r.reboot(2, '172.20.10.5')

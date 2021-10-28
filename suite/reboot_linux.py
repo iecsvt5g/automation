@@ -46,13 +46,13 @@ class reboot(unittest.TestCase):
 		if self == False:
 			raise(Exception('Error'))
 
-	# @take_screen_shot
-	# def test_case_02_multi_reboot(self):
-	# 	self = reboot_machine()
-	# 	self = self.reboot(2, '172.20.10.5')
-	# 	# self = self.reboot(1000, '172.20.10.5')
-	# 	if self == False:
-	# 		raise(Exception('Error'))
+	@take_screen_shot
+	def test_case_02_multi_reboot(self):
+		self = reboot_machine()
+		self = self.reboot(1000, '172.20.10.5')
+		# self = self.reboot(1000, '172.20.10.5')
+		if self == False:
+			raise(Exception('Error'))
 
 if __name__ == '__main__':
 	system('del reboot.html')
