@@ -12,13 +12,21 @@ import sys
 
 class reboot_machine(object):
 	def reboot(self, times):
-		for i in range(int(times)):
-			print('Reboot times: ' + str(i+1))
-			# sleep(1)
-			print('The system is rebooting..')
-			# system('echo sudo reboot')ss
+		try:
+			for i in range(int(times)):
+				print('Reboot times: ' + str(i+1))
+				# sleep(20)
+				print('The system is rebooting..')
+				# system('echo sudo reboot')
+				self.ssh()
+			return True
+		except:
+			return False
 
+	def ssh(self):
+		# a = system('ssh -t -l zl 192.168.8.102 ifconfig enp0s3 | grep \"inet \" | awk {\'print $2\'}')
+		system('ssh -t -l zl 192.168.8.102 \"sudo reboot\"')
 
 if __name__ == "__main__":
-	rb = reboot_machine()
-	rb.reboot(sys.argv[1])
+	r = reboot_machine()
+	r.reboot(1)
