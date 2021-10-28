@@ -18,6 +18,18 @@ from configparser import ConfigParser
 ini = ConfigParser()
 reboot_linux_ini = ini.read('.\..\\ini\\reboot_linux.ini')
 
+class take_screen_shot():
+	def __init__(self, func):
+		self.func = func
+		# self.name = func.__name__ + ' (__main__.CalTestCase).png'
+		self.name = func.__name__ + ' (__main__.reboot_linux).png'
+	def __call__(self, *args):
+		try:
+			self.func(self, *args)
+		finally:
+			# driver.get_screenshot_as_file(self.name)
+			pass
+
 class reboot(unittest.TestCase):
 	@classmethod
 	def setUpClass(self):
@@ -27,12 +39,14 @@ class reboot(unittest.TestCase):
 	def tearDownClass(self):
 		print('End:\tReboot for linux by unittest.')
 
+	@take_screen_shot
 	def test_case_01_reboot(self):
 		self = reboot_machine()
 		self = self.reboot(1, '172.20.10.5')
 		if self == False:
 			raise(Exception('Error'))
 
+	@take_screen_shot
 	def test_case_02_multi_reboot(self):
 		self = reboot_machine()
 		self = self.reboot(2, '172.20.10.5')
