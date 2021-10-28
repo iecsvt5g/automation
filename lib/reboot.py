@@ -27,7 +27,7 @@ class reboot_machine(object):
 			return False
 
 	def ssh(self, ip):
-		system('ssh -t -l zl ' + ip + ' \"sudo reboot\"')
+		system('ssh -t -l zl ' + ip + ' \"echo zl | sudo -S reboot\"')
 
 	def ssh_ip(self, ip):
 		system('ssh -t -l zl ' + ip + ' \"ifconfig enp0s3 | grep "inet " | awk {\'print $2\'}\"')
