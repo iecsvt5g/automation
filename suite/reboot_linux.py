@@ -50,7 +50,6 @@ class reboot(unittest.TestCase):
 	def test_case_02_multi_reboot(self):
 		self = reboot_machine()
 		self = self.reboot(1000, '172.20.10.5')
-		# self = self.reboot(1000, '172.20.10.5')
 		if self == False:
 			raise(Exception('Error'))
 
