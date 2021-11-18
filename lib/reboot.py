@@ -18,7 +18,7 @@ class reboot_machine(object):
 				print('The system is rebooting..')
 				self.ssh(ip)
 				if i >= 0:
-					for wait_time in range(30):
+					for wait_time in range(20):
 						print('Waitting....' + str(wait_time + 1))
 						sleep(1)
 					self.ssh_ip(ip)
