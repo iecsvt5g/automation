@@ -7,31 +7,31 @@ Created on 2021/10/27
 '''
 
 from time import sleep, time
-from os import system
+from os import name, system
 import sys
 
 class reboot_machine(object):
-	def reboot(self, times, ip):
+	def reboot(self, times, ip, name, interface):
 		try:
 			for i in range(int(times)):
 				print('Reboot times: ' + str(i+1))
 				print('The system is rebooting..')
-				self.ssh(ip)
+				self.ssh(ip, name)
 				if i >= 0:
-					for wait_time in range(20):
+					for wait_time in range(60):
 						print('Waitting....' + str(wait_time + 1))
 						sleep(1)
-					self.ssh_ip(ip)
+					self.ssh_ip(ip, name, interface)
 			return True
 		except:
 			return False
 
-	def ssh(self, ip):
-		system('ssh -t -l zl ' + ip + ' \"echo zl | sudo -S reboot\"')
+	def ssh(self, ip, name):
+		system('ssh -t -l ' + name + ' ' + ip + ' \"echo ' + name + ' | sudo -S reboot\"')
 
-	def ssh_ip(self, ip):
-		system('ssh -t -l zl ' + ip + ' \"ifconfig enp0s3 | grep "inet " | awk {\'print $2\'}\"')
+	def ssh_ip(self, ip, name, interface):
+		system('ssh -t -l ' + name + ' ' + ip + ' \"ifconfig ' + interface + ' | grep "inet " | awk {\'print $2\'}\"')
 
 # if __name__ == '__main__':
 # 	r = reboot_machine()
-# 	r.reboot(2, '172.20.10.5')
+	# r.reboot(2, '172.20.10.13', 'zl', 'wlp2s0')

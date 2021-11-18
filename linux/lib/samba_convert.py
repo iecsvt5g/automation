@@ -49,7 +49,7 @@ class samba_convert(object):
 		return general_time_string
 
 if __name__ == '__main__':
-	# os.system('rm -rf *.log')
+	os.system('rm -rf *.log')
 	time.sleep(1)
 	sb_t = samba_convert()
 	print('Catch the samba.txt...')
