@@ -9,7 +9,7 @@ Created on 2021/10/27
 import sys
 import time
 import configparser
-sys.path.insert(0, '..\\..\\lib')
+sys.path.insert(0, '..\\lib')
 from os import system
 from time import sleep
 from reboot import reboot_machine
@@ -17,7 +17,7 @@ from nose.tools import *
 from HTMLTestRunner import *
 
 ini = configparser.ConfigParser()
-ini.read('.\..\\..\\ini\\reboot_linux.ini')
+ini.read('.\..\\ini\\reboot_linux.ini')
 
 class take_screen_shot():
 	def __init__(self, func):
