@@ -10,8 +10,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import smtplib
 
-class gmail_notify(object):
-		
+class gmail_notify(object):	
 	def gmail(self, sent_email, receive_email):  
 		self.content = MIMEMultipart()  # Created on MIMEMultipart OO
 		self.content['subject'] = 'Warning!'  # Mail title
@@ -33,7 +32,7 @@ class gmail_notify(object):
 			except Exception as e:
 				print('Error message: ', e)
 	
-if __name__ == "__main__":
-	g_n = gmail_notify()
-	g_n.gmail('iecsvt5g@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com')
-	g_n.smtplib_smtp()
+# if __name__ == "__main__":
+# 	g_n = gmail_notify()
+# 	g_n.gmail('iecsvt5g@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com')
+# 	g_n.smtplib_smtp()

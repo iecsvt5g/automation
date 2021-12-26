@@ -17,7 +17,7 @@ from nose.tools import *
 from HTMLTestRunner import *
 
 ini = configparser.ConfigParser()
-ini.read('.\..\\ini\\reboot_linux.ini')
+ini.read('.\..\\ini\\reboot_script.ini')
 
 class take_screen_shot():
 	def __init__(self, func):
