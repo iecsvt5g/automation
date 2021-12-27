@@ -20,12 +20,12 @@ class line_notify(object):
 		}		
 		params = {'message': message}
 		requests.post('https://notify-api.line.me/api/notify', headers=headers, params=params)
-		# r = requests.post('https://notify-api.line.me/api/notify', headers=headers, params=params)
-		# print('Send Line Message ', r.status_code)  #200
+		r = requests.post('https://notify-api.line.me/api/notify', headers=headers, params=params)
+		print('Send Line Message ', r.status_code)  #200
 		
-# if __name__ == '__main__':
-# 	l_n = line_notify()
-# 	message = '\n\nDear SVT members,\n\n\tWarning! \
-# 			\n\tWe are under a attack! \
-# 			\n\t"The SVT NOTIFY is notify by ZL demo.\"\n\nZL.'
-# 	l_n.send_message(message)
+if __name__ == '__main__':
+	l_n = line_notify()
+	message = '\n\nDear SVT members,\n\n\tWarning! \
+			\n\tWe are under a attack! \
+			\n\t"The SVT NOTIFY is notify by ZL demo.\"\n\nZL.'
+	l_n.send_message(message)

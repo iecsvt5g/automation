@@ -10,15 +10,13 @@ from email.mime.text import MIMEText
 import smtplib
 
 class gmail_notify(object):	
-	def gmail(self, sent_email, receive_email):  
+	def gmail(self, sent_email, receive_email, content):  
 		self.content = MIMEMultipart()  # Created on MIMEMultipart OO
 		self.content['subject'] = 'Warning!'  # Mail title
 		self.content['from'] = sent_email  # Sender
 		self.content['to'] = receive_email # Receiver
-		self.content.attach(MIMEText(
-			'\n\nDear SVT members,\n\n\tWarning! \
-			\n\tWe are under a attack! \
-			\n\t"The SVT NOTIFY is notify by ZL demo.\"\n\nZL.'))  # Mail content
+		self.content.attach(MIMEText(content))  # Mail content
+		self.smtplib_smtp()
 
 	def smtplib_smtp(self):
 		with smtplib.SMTP(host='smtp.gmail.com', port='587') as smtp:  # Set the SMTP Server
@@ -31,7 +29,9 @@ class gmail_notify(object):
 			except Exception as e:
 				print('Error message: ', e)
 	
-# if __name__ == "__main__":
-# 	g_n = gmail_notify()
-# 	g_n.gmail('iecsvt5g@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com')
-# 	g_n.smtplib_smtp()
+if __name__ == "__main__":
+	g_n = gmail_notify()
+	g_n.gmail('iecsvt5g@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com',
+				'\n\nDear SVT members,\n\n\tWarning! \
+				\n\tWe are under a attack! \
+				\n\t"The SVT NOTIFY is notify by ZL demo.\"\n\nZL.')
