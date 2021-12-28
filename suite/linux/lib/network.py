@@ -39,15 +39,15 @@ class ssh(object):
 		# print(message)
 		if message in respone_result:
 			# print('found respone message - PASS')
-			# print message
+			# print(message)
 			return True, respone_result
 		else:
 			# raise Exception('not found respone message - FAIL')
 			return False, respone_result
 		s.close()
 
-# if __name__ == "__main__":
-# 	print('The Network.py code.')
-	# ssh = ssh()
-	# ssh.ssh_command('pwd')
-	# ssh.ssh_respone('/home/svt')
+if __name__ == "__main__":
+	print('The Network.py code.')
+	ssh = ssh()
+	ssh.ssh_command('pwd')
+	ssh.ssh_respone('/home/zl')
