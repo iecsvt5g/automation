@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Linux auto reboot by ZL.</title>
+    <title>Linux auto test by ZL.</title>
     <meta name="generator" content="HTMLTestRunner 0.8.2"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     
@@ -188,10 +188,10 @@ function showOutput(id, name) {
 --></script>
 
 <div class='heading'>
-<h1>Linux auto reboot by ZL.</h1>
-<p class='attribute'><strong>Start Time:</strong> 2021-11-18 13:54:56</p>
-<p class='attribute'><strong>Duration:</strong> 0:03:31.946270</p>
-<p class='attribute'><strong>Status:</strong> Pass 2</p>
+<h1>Linux auto test by ZL.</h1>
+<p class='attribute'><strong>Start Time:</strong> 2022-01-03 18:32:07</p>
+<p class='attribute'><strong>Duration:</strong> 0:00:00.935267</p>
+<p class='attribute'><strong>Status:</strong> Error 2</p>
 
 <p class='description'>Test Report</p>
 </div>
@@ -221,31 +221,43 @@ function showOutput(id, name) {
     <td>View</td>
 </tr>
 
-<tr class='passClass'>
-    <td>reboot</td>
-    <td>2</td>
+<tr class='errorClass'>
+    <td>reboot_unittest</td>
     <td>2</td>
     <td>0</td>
     <td>0</td>
+    <td>2</td>
     <td><a href="javascript:showClassDetail('c1',2)">Detail</a></td>
 </tr>
 
-<tr id='pt1.1' class='hiddenRow'>
-    <td class='none'><div class='testcase'>test_case_01_reboot</div></td>
+<tr id='ft1.1' class='none'>
+    <td class='errorCase'><div class='testcase'>test_case_01_reboot</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.1')" >
-        pass</a>
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft1.1')" >
+        error</a>
 
-    <div id='div_pt1.1' class="popup_window">
+    <div id='div_ft1.1' class="popup_window">
         <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.1').style.display = 'none' " >
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft1.1').style.display = 'none' " >
            [x]</a>
         </div>
         <pre>
         
-pt1.1: 
+ft1.1: Traceback (most recent call last):
+  File "reboot_unittest.py", line 24, in __call__
+    self.func(self, *args)
+  File "reboot_unittest.py", line 42, in test_case_01_reboot
+    raise(Exception('Error'))
+Exception: Error
+Traceback (most recent call last):
+  File "reboot_unittest.py", line 24, in __call__
+    self.func(self, *args)
+  File "reboot_unittest.py", line 42, in test_case_01_reboot
+    raise(Exception('Error'))
+Exception: Error
+
 
         </pre>
     </div>
@@ -254,22 +266,34 @@ pt1.1:
     </td>
 </tr>
 
-<tr id='pt1.2' class='hiddenRow'>
-    <td class='none'><div class='testcase'>test_case_02_multi_reboot</div></td>
+<tr id='ft1.2' class='none'>
+    <td class='errorCase'><div class='testcase'>test_case_02_multi_reboot</div></td>
     <td colspan='5' align='center'>
 
     <!--css div popup start-->
-    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_pt1.2')" >
-        pass</a>
+    <a class="popup_link" onfocus='this.blur();' href="javascript:showTestDetail('div_ft1.2')" >
+        error</a>
 
-    <div id='div_pt1.2' class="popup_window">
+    <div id='div_ft1.2' class="popup_window">
         <div style='text-align: right; color:red;cursor:pointer'>
-        <a onfocus='this.blur();' onclick="document.getElementById('div_pt1.2').style.display = 'none' " >
+        <a onfocus='this.blur();' onclick="document.getElementById('div_ft1.2').style.display = 'none' " >
            [x]</a>
         </div>
         <pre>
         
-pt1.2: 
+ft1.2: Traceback (most recent call last):
+  File "reboot_unittest.py", line 24, in __call__
+    self.func(self, *args)
+  File "reboot_unittest.py", line 49, in test_case_02_multi_reboot
+    raise(Exception('Error'))
+Exception: Error
+Traceback (most recent call last):
+  File "reboot_unittest.py", line 24, in __call__
+    self.func(self, *args)
+  File "reboot_unittest.py", line 49, in test_case_02_multi_reboot
+    raise(Exception('Error'))
+Exception: Error
+
 
         </pre>
     </div>
@@ -281,9 +305,9 @@ pt1.2:
 <tr id='total_row'>
     <td>Total</td>
     <td>2</td>
+    <td>0</td>
+    <td>0</td>
     <td>2</td>
-    <td>0</td>
-    <td>0</td>
     <td>&nbsp;</td>
 </tr>
 </table>

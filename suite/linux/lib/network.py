@@ -20,7 +20,6 @@ class ssh(object):
 		name = config.get('ssh_setting', 'name')
 		passwd = config.get('ssh_setting', 'passwd')
 		port = int(config.get('ssh_setting', 'port'))
-
 		s = paramiko.SSHClient()
 		s.load_system_host_keys()
 		s.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -37,17 +36,22 @@ class ssh(object):
 		result = ' '.join(map(str, cmd_result))
 		respone_result = result.strip()
 		# print(message)
+		# print(respone_result)
 		if message in respone_result:
-			# print('found respone message - PASS')
+			print('found respone message - PASS')
 			# print(message)
 			return True, respone_result
 		else:
-			# raise Exception('not found respone message - FAIL')
+			raise Exception('not found respone message - FAIL')
 			return False, respone_result
 		s.close()
 
-if __name__ == "__main__":
-	print('The Network.py code.')
-	ssh = ssh()
-	ssh.ssh_command('pwd')
-	ssh.ssh_respone('/home/zl')
+# if __name__ == "__main__":
+	# print('The Network.py code.')
+	# ssh = ssh()
+	# ssh.ssh_command('pwd')
+	# ssh.ssh_respone('/home/zl')
+	# ssh.ssh_command('echo \'zl\' | sudo -S reboot')
+	# ssh.ssh_respone('')
+	# ssh.ssh_command('ip address show dev ' + 'enp0s3' + ' | grep \"inet \" | awk {\'print $2\'}')
+	# ssh.ssh_respone('172.20.10.3/28')
