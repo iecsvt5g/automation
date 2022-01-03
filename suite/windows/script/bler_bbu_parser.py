@@ -36,16 +36,15 @@ class bler_parser(object):
 	def notify(self):
 		g_n = gmail_notify()
 		l_n = line_notify()
-		g_n.gmail('iecsvt5g@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com')
-		g_n.smtplib_smtp()
 		message = '\n\nDear SVT members,\n\n\tWarning! \
 				\n\tWe are under a attack! \
 				\n\t"The SVT NOTIFY is notify by ZL demo.\"\n\nZL.'
+		g_n.gmail('iecsvt5g@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com', message)
 		l_n.send_message(message)
 
 if __name__ == '__main__':
 	bler_parser = bler_parser()
 	while True:
-		command = 'cat /home/svt/phy.log | awk \'END{print $(NF-2)}\' | sed \'s/.$//\''
+		command = 'cat /home/zl/bler.log | awk \'END{print $(NF-4)}\' | sed \'s/.$//\''
 		bler_parser.parser(command, config.get('setting', 'limit_bler'))
 		print('Done')
