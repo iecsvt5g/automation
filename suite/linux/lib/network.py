@@ -39,11 +39,11 @@ class ssh(object):
 		# print(message)
 		# print(respone_result)
 		if message in respone_result:
-			print('found respone message - PASS')
+			# print('found respone message - PASS')
 			# print(message)
 			return True, respone_result
 		else:
-			print('not found respone message - FAIL')
+			# print('not found respone message - FAIL')
 			return False, respone_result
 		s.close()
 
