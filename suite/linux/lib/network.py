@@ -43,7 +43,7 @@ class ssh(object):
 			# print(message)
 			return True, respone_result
 		else:
-			raise Exception('not found respone message - FAIL')
+			print('not found respone message - FAIL')
 			return False, respone_result
 		s.close()
 
