@@ -1,6 +1,7 @@
 #/usr/bin/python3
 '''
 Created on 2021/12/25
+Modified on 2022/02/05
 
 @author: ZL Chen
 @title: The network lib.
@@ -11,7 +12,7 @@ import paramiko
 from paramiko import SSHClient
 
 config = configparser.ConfigParser()
-config.read(".\..\\ini\\network.ini")
+config.read("./../ini/network.ini")
 
 class ssh(object):
 	def ssh_connection(self):
@@ -47,11 +48,13 @@ class ssh(object):
 		s.close()
 
 # if __name__ == "__main__":
-	# print('The Network.py code.')
-	# ssh = ssh()
-	# ssh.ssh_command('pwd')
-	# ssh.ssh_respone('/home/zl')
-	# ssh.ssh_command('echo \'zl\' | sudo -S reboot')
-	# ssh.ssh_respone('')
-	# ssh.ssh_command('ip address show dev ' + 'enp0s3' + ' | grep \"inet \" | awk {\'print $2\'}')
-	# ssh.ssh_respone('172.20.10.3/28')
+# 	print('The Network.py code.')
+# 	ssh = ssh()
+# 	ssh.ssh_command('pwd')
+# 	ssh.ssh_respone('/home/zl')
+# 	ssh.ssh_command('echo \'zl\' | sudo -S reboot')
+# 	ssh.ssh_respone('')
+# 	ssh.ssh_command('ip address show dev ' + 'enp0s3' + ' | grep \"inet \" | awk {\'print $2\'}')
+# 	ssh.ssh_respone('172.20.10.3/28')
+# 	ssh.ssh_command('ru_cmd gettemp | sed \'s/[a-z]*//g\' | tr -d \':\'')
+# 	ssh.ssh_response('53')
