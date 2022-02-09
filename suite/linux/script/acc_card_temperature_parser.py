@@ -6,11 +6,12 @@ Created on 2022/02/05
 @title: RU Temperture.
 '''
 
-import configparser, sys, time
+import configparser, sys, time, datetime
 sys.path.insert(0, './../lib')
 from gmail_notify import gmail_notify
 from line_notify import line_notify
 from network import ssh
+from csv import writer
 
 config = configparser.ConfigParser()
 config.read('./../ini/acc_card_temperature_parser.ini')
@@ -20,10 +21,15 @@ class acc_parser(object):
 		count = 0
 		content = list()
 		while True:
+			today_date = str(datetime.date.today()) + '.csv'
+			today_now = str(datetime.datetime.now())
 			ssh().ssh_command(cmd)
 			result, respone_result = ssh().ssh_respone(res)
 			respone_result = respone_result.split('b\'')[1].strip()
 			respone_result = float(respone_result[:-3])
+			with open('../log/' + today_date, 'a+', newline='') as csvfile:
+				_writer = writer(csvfile)
+				_writer.writerow([today_now, respone_result])
 			if respone_result > float(res):
 				count += 1
 				content.append(respone_result)
