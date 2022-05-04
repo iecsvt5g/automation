@@ -6,7 +6,6 @@ Created on 2022/05/04
 @title: BaiCell license check.
 '''
 
-from distutils.log import error
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
