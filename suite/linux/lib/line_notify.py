@@ -10,18 +10,18 @@ import requests
 
 class line_notify(object):
 	def send_message(self, message):
-		# headers = {
-		# 	'Authorization': 'Bearer ' + 'qJQeg65a8eQBfnXwZbZUb6539PN1c3cXrFvfgxxkXz7', # SVT Group Notification
-		# 	'Content-Type': 'application/x-www-form-urlencoded'
-		# }	
+		headers = {
+			'Authorization': 'Bearer ' + 'qJQeg65a8eQBfnXwZbZUb6539PN1c3cXrFvfgxxkXz7', # SVT Group Notification
+			'Content-Type': 'application/x-www-form-urlencoded'
+		}	
 		# headers = {
 		# 	'Authorization': 'Bearer ' + 'Or16XvbNtIWn1pZtk50bIOEFogxohd7BbZujDyhfh5u', # Quick Test
 		# 	'Content-Type': 'application/x-www-form-urlencoded'
 		# }
-		headers = {
-			'Authorization': 'Bearer ' + 'tp9rUIAEvDHsELD9oDAeW3SPtO57bGWEqSpmJ7qCP1H', # Myself Group Notification
-			'Content-Type': 'application/x-www-form-urlencoded'
-		}
+		# headers = {
+		# 	'Authorization': 'Bearer ' + 'tp9rUIAEvDHsELD9oDAeW3SPtO57bGWEqSpmJ7qCP1H', # Myself Group Notification
+		# 	'Content-Type': 'application/x-www-form-urlencoded'
+		# }
 		# headers = {
 		# 	'Authorization': 'Bearer ' + 'wz4FlBuH9RpxRk37p0Vlc5adcjTk7shkuHEsC0L4vem', # SVT Private Group Notification
 		# 	'Content-Type': 'application/x-www-form-urlencoded'
