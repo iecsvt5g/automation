@@ -51,7 +51,7 @@ class bbu_license_check(object):
 			print(self.remain_time_name + ': ' + self.remain_time)
 			sleep(2)
 		except:
-			self.line_notify.send_message('\nAttention, please.\nWebsite error.\n' + 'IP: ' + argv[1] + '\n'
+			self.line_notify.send_message('\nAttention, please.\nWebsite error.\n' + 'IP: ' + argv[1] + '\n')
 			self.driver.close()
 		finally:
 			self.driver.quit()
