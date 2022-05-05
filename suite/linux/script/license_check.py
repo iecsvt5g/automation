@@ -13,6 +13,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 from sys import path
 path.insert(0, '.\..\\lib')
+#path.insert(0, './/lib')
 from line_notify import line_notify
 
 class bbu_license_check(object):
