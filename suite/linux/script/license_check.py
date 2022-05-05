@@ -62,6 +62,7 @@ class bbu_license_check(object):
 
 	def line_notification(self):
 		self.line_notify.send_message('\nAttention, please.\nBaiCells\'s BBU information: \n'
+										+ 'IP: ' + argv[1] + '\n'
 										+ self.license_generatedate_name + ': ' + self.license_generatedate + '\n'
 										+ self.remain_time_name + ': ' + self.remain_time)
 
