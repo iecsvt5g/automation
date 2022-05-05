@@ -10,15 +10,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from configparser import ConfigParser
 from time import sleep
+from sys import argv
 from sys import path
 #path.insert(0, '.\..\\lib')
 path.insert(0, '..//lib')
 from line_notify import line_notify
-
-config = ConfigParser()
-config.read('..//ini//license_check.ini')
 
 class bbu_license_check(object):
 	def setup(self):
@@ -26,12 +23,12 @@ class bbu_license_check(object):
 		self.line_notify = line_notify()
 
 	def remain_time_parser(self):
-		url = 'http://' + config.get('setting', 'ip') + '/'
-		self.driver.get(url)
-		self.driver.maximize_window()
-		self.driver.refresh()
-		print('Open the Baicells website.')
+		url = 'http://' + argv[1] + '/'
 		try:
+			self.driver.get(url)
+			self.driver.maximize_window()
+			self.driver.refresh()
+			print('Open the Baicells website.')
 			username = self.element_get(By.ID, 'username')
 			username.send_keys('admin')
 			password = self.element_get(By.ID, 'password')
@@ -53,6 +50,8 @@ class bbu_license_check(object):
 			print(self.license_generatedate_name + ': ' + self.license_generatedate)
 			print(self.remain_time_name + ': ' + self.remain_time)
 			sleep(2)
+		except:
+			self.driver.close()
 		finally:
 			self.driver.quit()
 
