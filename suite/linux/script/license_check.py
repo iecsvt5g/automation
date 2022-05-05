@@ -21,7 +21,7 @@ class bbu_license_check(object):
 		self.line_notify = line_notify()
 
 	def remain_time_parser(self):
-		url = 'http://172.32.3.242/'
+		url = 'http://172.32.3.155/'
 		self.driver.get(url)
 		self.driver.maximize_window()
 		self.driver.refresh()
