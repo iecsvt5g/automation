@@ -72,7 +72,8 @@ class bbu_license_check(object):
 										+ self.remain_time_name + ': ' + self.remain_time)
 	
 	def gmail_notification(self):
-		self.gmail_notify.gmail('\nAttention, please.\nBaiCells\'s BBU information: \n'
+		self.gmail_notify.gmail('iecsvt5g.family@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com, iecsvt5g@gmail.com, iecsvt5g.family@gmail.com',
+									+ '\nAttention, please.\nBaiCells\'s BBU information: \n'
 									+ 'IP: ' + argv[1] + '\n'
 									+ self.license_generatedate_name + ': ' + self.license_generatedate + '\n'
 									+ self.remain_time_name + ': ' + self.remain_time)
