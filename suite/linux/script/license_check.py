@@ -39,9 +39,9 @@ class bbu_license_check(object):
 				'#loginVue > div:nth-child(2) > form > div > div.el-card__body > div:nth-child(4) > div > button').click()
 			self.driver.implicitly_wait(10)
 			self.element_get(By.CSS_SELECTOR, '#myMenu > ul > li:nth-child(4) > div > span').click()
-			sleep(2)
+			sleep(4))
 			self.element_get(By.CSS_SELECTOR, '#license').click()
-			sleep(2)
+			sleep(4)
 			self.license_generatedate_name = self.element_get(By.XPATH, '//*[@id="licenseVue"]/form/div[1]/section/div[2]/div[4]/label').text
 			self.license_generatedate = self.element_get(By.XPATH, '//*[@id="licenseVue"]/form/div[1]/section/div[2]/div[4]/div/span').text
 			self.remain_time_name = self.element_get(By.XPATH, '//*[@id="firstContent"]/div[2]/div/div[2]/div[2]/table/thead/tr/th[4]/div').text
