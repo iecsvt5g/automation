@@ -21,8 +21,7 @@ class bbu_license_check(object):
 	def setup(self):
 		self.driver = webdriver.Chrome('chromedriver')
 		self.line_notify = line_notify()
-		self.gmail_notify = gmail_notify()
-
+		
 	def remain_time_parser(self):
 		url = 'http://' + argv[1] + '/'
 		try:
