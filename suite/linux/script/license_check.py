@@ -16,7 +16,6 @@ from sys import path
 #path.insert(0, '.\..\\lib')
 path.insert(0, '..//lib')
 from line_notify import line_notify
-from gmail_notify import gmail_notify
 
 class bbu_license_check(object):
 	def setup(self):
@@ -49,13 +48,11 @@ class bbu_license_check(object):
 			remain_time_int = int(self.remain_time)
 			if remain_time_int == 180 or remain_time_int == 90 or remain_time_int <= 30:
 				self.line_notification()
-				self.gmail_notification()
 			print(self.license_generatedate_name + ': ' + self.license_generatedate)
 			print(self.remain_time_name + ': ' + self.remain_time)
 			sleep(2)
 		except:
 			self.line_notify.send_message('\nAttention, please.\nWebsite error.\n' + 'IP: ' + argv[1] + '\n')
-			self.gmail_notify.gmail('\nAttention, please.\nWebsite error.\n' + 'IP: ' + argv[1] + '\n')
 			self.driver.close()
 		finally:
 			self.driver.quit()
@@ -70,13 +67,6 @@ class bbu_license_check(object):
 										+ 'IP: ' + argv[1] + '\n'
 										+ self.license_generatedate_name + ': ' + self.license_generatedate + '\n'
 										+ self.remain_time_name + ': ' + self.remain_time)
-	
-	def gmail_notification(self):
-		self.gmail_notify.gmail('iecsvt5g.family@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com, iecsvt5g@gmail.com, iecsvt5g.family@gmail.com',
-									+ '\nAttention, please.\nBaiCells\'s BBU information: \n'
-									+ 'IP: ' + argv[1] + '\n'
-									+ self.license_generatedate_name + ': ' + self.license_generatedate + '\n'
-									+ self.remain_time_name + ': ' + self.remain_time)
 
 if __name__ == '__main__':
 	l = bbu_license_check()
