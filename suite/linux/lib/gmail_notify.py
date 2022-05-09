@@ -25,7 +25,7 @@ class gmail_notify(object):
 			try:
 				smtp.ehlo()  # Verify the SMTP Server
 				smtp.starttls()  # Build the SSL
-				smtp.login(self.content['from'], 'wglolvyevrczqgrp')  # Login the sender mail
+				smtp.login(self.content['from'], 'pcsctakjcqgrcmgr')  # Login the sender mail
 				smtp.send_message(self.content)  # Send the mail
 				print('Complete!')
 			except Exception as e:
