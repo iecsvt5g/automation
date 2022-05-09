@@ -15,11 +15,11 @@ class line_notify(object):
 		# 	'Content-Type': 'application/x-www-form-urlencoded'
 		# }	
 		# headers = {
-		# 	'Authorization': 'Bearer ' + 'Or16XvbNtIWn1pZtk50bIOEFogxohd7BbZujDyhfh5u', # Quick Test
+		# 	'Authorization': 'Bearer ' + 'tp9rUIAEvDHsELD9oDAeW3SPtO57bGWEqSpmJ7qCP1H', # Myself Group Notification
 		# 	'Content-Type': 'application/x-www-form-urlencoded'
 		# }
 		headers = {
-			'Authorization': 'Bearer ' + 'tp9rUIAEvDHsELD9oDAeW3SPtO57bGWEqSpmJ7qCP1H', # Myself Group Notification
+			'Authorization': 'Bearer ' + 'Or16XvbNtIWn1pZtk50bIOEFogxohd7BbZujDyhfh5u', # Quick Test
 			'Content-Type': 'application/x-www-form-urlencoded'
 		}
 		# headers = {
