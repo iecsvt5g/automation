@@ -51,11 +51,11 @@ class bbu_license_check(object):
 				self.line_notification('\"Notice\"')
 				self.gmail_notification('\"Notice\"')
 			if remain_time_int == 60:
-				self.line_notification('\"Waring\"')
-				self.gmail_notification('\"Waring\"')
+				self.line_notification('\"Warning\"')
+				self.gmail_notification('\"Warning\"')
 			if remain_time_int <= 30:
-				self.line_notification('\"Critical Waring !!!\"')
-				self.gmail_notification('\"Critical Waring !!!\"')
+				self.line_notification('\"Critical Warning !!!\"')
+				self.gmail_notification('\"Critical Warning !!!\"')
 			print(self.license_generatedate_name + ': ' + self.license_generatedate)
 			print(self.remain_time_name + ': ' + self.remain_time)
 			sleep(2)
