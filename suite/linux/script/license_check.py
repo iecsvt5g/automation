@@ -47,9 +47,15 @@ class bbu_license_check(object):
 			self.remain_time_name = self.element_get(By.XPATH, '//*[@id="firstContent"]/div[2]/div/div[2]/div[2]/table/thead/tr/th[4]/div').text
 			self.remain_time = self.element_get(By.XPATH, '//*[@id="firstContent"]/div[2]/div/div[2]/div[3]/table/tbody/tr/td[4]/div').text
 			remain_time_int = int(self.remain_time)
-			if remain_time_int == 180 or remain_time_int == 90 or remain_time_int <= 30:
-				self.line_notification()
-				self.gmail_notification()
+			if remain_time_int == 180 or remain_time_int == 90:
+				self.line_notification('\"Notice\"')
+				self.gmail_notification('\"Notice\"')
+			if remain_time_int == 60:
+				self.line_notification('\"Waring\"')
+				self.gmail_notification('\"Waring\"')
+			if remain_time_int <= 30:
+				self.line_notification('\"Critical Waring !!!\"')
+				self.gmail_notification('\"Critical Waring !!!\"')
 			print(self.license_generatedate_name + ': ' + self.license_generatedate)
 			print(self.remain_time_name + ': ' + self.remain_time)
 			sleep(2)
@@ -65,16 +71,16 @@ class bbu_license_check(object):
 				EC.presence_of_element_located((name, element))
 			)
 
-	def line_notification(self):
-		self.line_notify.send_message('\nAttention, please.\nBaiCells\'s BBU information: \n'
+	def line_notification(self, msg):
+		self.line_notify.send_message(msg + '\nAttention, please.\nBaiCells\'s BBU information: \n'
 										+ 'IP: ' + argv[1] + '\n'
 										+ self.license_generatedate_name + ': ' + self.license_generatedate + '\n'
 										+ self.remain_time_name + ': ' + self.remain_time)
 
-	def gmail_notification(self):
+	def gmail_notification(self, msg):
 		sender = 'iecsvt5g.family@gmail.com'
 		receiver = 'iecsvt5g@gmail.com, chen.kerr@inventec.com, chen.zl@inventec.com, ku.rudy@inventec.com, chiu.jayyc@inventec.com, liao.kent@inventec.com, shih.darren@inventec.com'
-		self.g_n = self.gmail_notify.gmail(sender, receiver, '\nAttention, please.\nBaiCells\'s BBU information: \n' + 'IP: ' + argv[1] + '\n' \
+		self.g_n = self.gmail_notify.gmail(sender, receiver, msg + '\nAttention, please.\nBaiCells\'s BBU information: \n' + 'IP: ' + argv[1] + '\n' \
 											+ self.license_generatedate_name + ': ' + self.license_generatedate + '\n' \
 											+ self.remain_time_name + ': ' + self.remain_time)
 
