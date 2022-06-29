@@ -7,8 +7,6 @@ Created on 2022/06/29
 '''
 
 import csv
-from cProfile import label
-from turtle import color
 from matplotlib import pyplot as plt
 
 class librespeed(object):
