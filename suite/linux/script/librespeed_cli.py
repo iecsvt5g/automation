@@ -6,8 +6,8 @@ Created on 2022/06/29
 @title: librespeed cli export
 '''
 
-from cProfile import label
 import csv
+from cProfile import label
 from turtle import color
 from matplotlib import pyplot as plt
 
