@@ -11,5 +11,6 @@ sudo systemctl daemon-reload
 sudo systemctl start  get_tcpdump_service
 sudo systemctl enable get_tcpdump_service
 
-NOTE:
-# 
+Settings:
+Do TCPDUMP in 1800 sec ==> get_tcpdump.sh
+Cleanup history 3 days ==> cleanup.sh
