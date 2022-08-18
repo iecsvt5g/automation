@@ -1,0 +1,9 @@
+[Unit]
+Description=Tcp dump service.
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /opt/tcpdump/start_service.sh
+
+[Install]
+WantedBy=multi-user.target

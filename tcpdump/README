@@ -1,0 +1,14 @@
+## 00 Move folder to /opt/tcpdump
+mv tcpdump /opt/tcpdump
+
+## 01 Add Cron Job - cleanup
+crontab -e
+0 5 * * *  sh /opt/tcpdump/cleanup.sh  >> /opt/tcpdump/history/log 2>&1
+
+
+## 02 installl service
+sudo chmod 644 *.service
+sudo cp *.service /etc/systemd/system
+sudo systemctl daemon-reload
+sudo systemctl start  get_tcpdump_service
+sudo systemctl enable get_tcpdump_service
