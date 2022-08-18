@@ -2,6 +2,7 @@ This is a linux service to get tcpdump data in the day range.
 
 INSTALL STEPS:
 ## 00 Move folder to /opt/tcpdump
+sudo su
 mv tcpdump /opt/tcpdump
 
 ## 01 installl service
