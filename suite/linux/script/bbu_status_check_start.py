@@ -11,11 +11,13 @@ sys.path.insert(0, '/root/automation/suite/linux/lib')
 # from gmail_notify import gmail_notify
 from line_notify import line_notify
 from datetime import datetime
+from influx_db import infulx_db
 
 class bbu_check(object):
 	def log(self):
 		print("BBU is started.")
-		self.notify()	
+		self.notify()
+		return self.bbu_status
 
 	def notify(self):
 		# g_n = gmail_notify()
@@ -27,7 +29,9 @@ class bbu_check(object):
 		message = 'BBU is started.\n' + 'ip = ' + str(ip) + '\n' + result
 		# g_n.gmail('iecsvt5g@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com', message)
 		l_n.send_message(message)
+		self.bbu_status = 1
 
 if __name__ == '__main__':
 	bbu_status_check = bbu_check()
-	bbu_status_check.log()
+	mydb = infulx_db("172.32.3.196", 8086, 'admin', 'admin', 'influx')
+	mydb.write(infulx_db.get_bbu_status(bbu_status_check.log()))
