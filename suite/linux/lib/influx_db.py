@@ -22,52 +22,6 @@ class infulx_db(object):
 	def write(self,json_payload):
 		self.client.write_points(json_payload)
 
-	def gen_data():
-		json_payload=[]
-		for i in range(5):
-			for j in ['gnbs','pdu_sessions','throuphput','critcal_alert','major_alert','minor_alert','reg_devices']:
-				d= {
-					"measurement": "core_alert",
-					"tags": {
-						"core_ip": "172.32.3.203",
-						"vendor":"metaswitch",
-						'info': j
-					},
-					"time": datetime.now(),
-					"fields": { 'value': random.randint(1,10)  }
-				}
-				sleep(0.1)
-				json_payload.append(d)
-				print(d)
-		return json_payload
-
-	def gen_data2():
-		json_payload=[]
-		for i in range(10):
-			d= {
-				"measurement": "core_alert",
-				"tags": {
-					"core_ip": "172.32.3.203",
-					"vendor":"metaswitch",
-				},
-	#           "time": datetime.now(),
-				"fields": {
-					'gnbs': random.randint(1,10),
-					'pdu_sessions': random.randint(1,10),
-					'throuphput': random.randint(1,100),
-					'reg_devices': random.randint(1,10),
-					'critcal_alert': random.randint(1,10),
-					'major_alert': random.randint(1,10),
-					'minor_alert': random.randint(1,10),
-				}
-			}
-			sleep(0.2)
-			json_payload.append(d)
-			print(d)
-		return json_payload
-		#client.write_points(gen_data2())
-		#client.write_points(gen_data())
-
 	def get_bbu_status(bbu_status):
 		json_payload = list()
 		for i in range(1):
@@ -75,9 +29,9 @@ class infulx_db(object):
 				"measurement": "bbu_alert",
 				"tags": {
 					"bbu_ip": "172.32.3.155",
-					"vendor":"BaiCells",
+					"vendor":"BaiCells"
 				},
-			#   "time": datetime.now(),
+				# "time": datetime.now(),
 				"fields": {
 					# 'gnbs': random.randint(1,10),
 					# 'pdu_sessions': random.randint(1,10),
@@ -95,6 +49,34 @@ class infulx_db(object):
 			print(status)
 		return json_payload
 
-if __name__ == '__main__':
-	mydb = infulx_db("172.32.3.196", 8086, 'admin', 'admin', 'influx')
-	mydb.write(infulx_db.get_bbu_status(0))
+	def get_phy_bler(phy_bler_0, phy_bler_1):
+		json_payload = list()
+		for i in range(1):
+			status = {
+				"measurement": "phy_bler",
+				"tags": {
+					"bbu_ip": "172.32.3.155",
+					"vendor":"BaiCells"
+				},
+				# "time": datetime.now(),
+				"fields": {
+					# 'gnbs': random.randint(1,10),
+					# 'pdu_sessions': random.randint(1,10),
+					# 'throuphput': random.randint(1,100),
+					# 'reg_devices': random.randint(1,10),
+					# 'critcal_alert': random.randint(1,10),
+					# 'major_alert': random.randint(1,10),
+					# 'minor_alert': random.randint(1,10),
+					# 'bbu_status': random.randint(0, 1)
+					'phy_bler_0': phy_bler_0,
+					'phy_bler_1': phy_bler_1
+				}
+			}
+			sleep(0.2)
+			json_payload.append(status)
+			print(status)
+		return json_payload
+
+# if __name__ == '__main__':
+# 	mydb = infulx_db("172.32.3.196", 8086, 'admin', 'admin', 'influx')
+# 	mydb.write(infulx_db.get_bbu_status(0))
