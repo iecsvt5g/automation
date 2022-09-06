@@ -49,5 +49,5 @@ if __name__ == '__main__':
 		mydb = infulx_db("172.32.3.196", 8086, 'admin', 'admin', 'influx')
 		mydb.write(infulx_db.get_phy_bler(r_0, r_1))
 		_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
-		bler.cloud_db(_time, r_0)
+		bler.cloud_db(_time, r_0, r_1)
 		sleep(3)
