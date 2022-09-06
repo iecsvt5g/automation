@@ -8,6 +8,8 @@ Created on 2022/09/01
 import sys
 sys.path.insert(0, '../lib')
 import subprocess
+import pymysql
+import time
 from influx_db import infulx_db
 from time import sleep
 
@@ -20,6 +22,25 @@ class bler_parser(object):
 		parser_response_0 = float(parser_response_0[0:-3])
 		parser_response_1 = float(parser_response_1[0:-3])
 		return parser_response_0, parser_response_1
+		# return parser_response_0
+	
+	def cloud_db(self, _time, r_0, r_1):
+		try:
+			sql = {
+					'host': '20.212.112.202',
+					'port': 3306,
+					'user': 'TAO',
+					'password': 'admin',
+					'db': 'svt'
+					}
+			conn = pymysql.connect(**sql)
+			cur = conn.cursor()
+			sql = """INSERT INTO {table}(time, ip, ru_temp_0) VALUES(%s, %s, %s)""".format(table='phy_bler_parser')
+			# cur.execute(sql, (_time, '172.32.3.155', r_0))
+			cur.execute(sql, (_time, '172.32.3.155', r_0, r_1))
+			conn.commit()
+		except Exception as e:
+			raise e
 
 if __name__ == '__main__':
 	bler = bler_parser()
@@ -27,4 +48,6 @@ if __name__ == '__main__':
 		r_0, r_1 = bler.parser()
 		mydb = infulx_db("172.32.3.196", 8086, 'admin', 'admin', 'influx')
 		mydb.write(infulx_db.get_phy_bler(r_0, r_1))
-		sleep(0.5)
+		_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
+		bler.cloud_db(_time, r_0)
+		sleep(3)
