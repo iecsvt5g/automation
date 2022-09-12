@@ -27,10 +27,15 @@ class bler_parser(object):
 	def cloud_db(self, _time, r_0, r_1):
 		try:
 			sql = {
-					'host': '20.212.112.202',
+					# 'host': '20.212.112.202',
+					# 'port': 3306,
+					# 'user': 'TAO',
+					# 'password': 'admin',
+					# 'db': 'svt'
+					'host': '172.32.3.153',
 					'port': 3306,
-					'user': 'TAO',
-					'password': 'admin',
+					'user': 'svt',
+					'password': '1qaz@WSXiecsvt5g',
 					'db': 'svt'
 					}
 			conn = pymysql.connect(**sql)
