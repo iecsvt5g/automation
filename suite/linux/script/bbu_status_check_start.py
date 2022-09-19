@@ -57,6 +57,7 @@ class bbu_check(object):
 if __name__ == '__main__':
 	bbu_status_check = bbu_check()
 	mydb = infulx_db("172.32.3.196", 8086, 'admin', 'admin', 'influx')
-	mydb.write(infulx_db.get_bbu_status(bbu_status_check.log()))
+	status_check = bbu_status_check.log()
+	mydb.write(infulx_db.get_bbu_status(status_check))
 	_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
-	bbu_status_check.cloud_db(_time, bbu_status_check.log())
+	bbu_status_check.cloud_db(_time, status_check)
