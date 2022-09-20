@@ -33,7 +33,7 @@ class gmail_notify(object):
 	
 # if __name__ == "__main__":
 # 	g_n = gmail_notify()
-# 	g_n.gmail('iecsvt5g.family@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com, iecsvt5g@gmail.com, iecsvt5g.family@gmail.com',
+# 	g_n.gmail('iecsvt5g@gmail.com,
 # 				'\n\nDear SVT members,\n\n\tWarning! \
 # 				\n\tWe are under a attack! \
 # 				\n\t"The SVT NOTIFY is notify by ZL demo.\"\n\nZL.')
