@@ -93,6 +93,7 @@ class phy(object):
 			ip_command = 'ip addr | grep \'inet 172.32\' | awk \'END{print $2}\''
 			ip_command = check_output(ip_command, shell=True).decode("utf-8").strip()
 			ip_command = ip_command.replace('/24', '')	# replace subnet mask str
+			ip_command = ip_command.replace('/16', '')	# replace subnet mask str
 			return ip_command
 		except:
 			return 'Not Found IP'
