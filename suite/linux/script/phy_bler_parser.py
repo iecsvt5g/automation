@@ -6,7 +6,7 @@ Created on 2022/09/01
 @title: PHY BLER Parser
 '''
 import sys
-sys.path.insert(0, '../lib')
+# sys.path.insert(0, '../lib')
 import subprocess
 import pymysql
 import time
@@ -51,8 +51,8 @@ if __name__ == '__main__':
 	bler = bler_parser()
 	while True:
 		r_0, r_1 = bler.parser()
-		mydb = infulx_db("172.32.3.196", 8086, 'admin', 'admin', 'influx')
-		mydb.write(infulx_db.get_phy_bler(r_0, r_1))
+		# mydb = infulx_db("172.32.3.196", 8086, 'admin', 'admin', 'influx')
+		# mydb.write(infulx_db.get_phy_bler(r_0, r_1))
 		_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
 		bler.cloud_db(_time, r_0, r_1)
 		sleep(3)
