@@ -117,7 +117,8 @@ class phy(object):
 			conn.commit()
 			print('The information is commit to database.')
 		except Exception as e:
-			raise e
+			# raise e
+			pass
 
 if __name__ == '__main__':
 	while True:
