@@ -45,7 +45,8 @@ class bler_parser(object):
 			cur.execute(sql, (_time, '172.32.3.155', r_0, r_1))
 			conn.commit()
 		except Exception as e:
-			raise e
+			# raise e
+			pass
 
 if __name__ == '__main__':
 	bler = bler_parser()
