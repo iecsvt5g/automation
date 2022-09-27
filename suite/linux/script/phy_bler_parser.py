@@ -10,7 +10,7 @@ import sys
 import subprocess
 import pymysql
 import time
-from influx_db import infulx_db
+# from influx_db import infulx_db
 from time import sleep
 
 class bler_parser(object):
