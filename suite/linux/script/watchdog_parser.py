@@ -16,7 +16,7 @@ class watchdog(object):
 	Timezone: UTC+8 to UTC
 	'''
 	def datetime_taiwan_to_utc(self, datetime):
-		taiwan_time = strptime(datetime, "%Y %a %b %d %H:%M:%S")
+		taiwan_time = strptime(datetime, "%Y-%m-%d %H:%M:%S")
 		taiwan_time = mktime(taiwan_time)
 		utc_time = taiwan_time - 8 * 60 * 60
 		utc_time = localtime(utc_time)
@@ -41,7 +41,7 @@ class watchdog(object):
 		# print(re_contentRex)
 		timerRex = re_contentRex[0] + ' ' + re_contentRex[1]
 		# print(timerRex)
-		utc_time = timerRex
+		utc_time = self.datetime_taiwan_to_utc(timerRex)
 		print(utc_time)
 		ip = self._ip_parser()
 		print(ip)
