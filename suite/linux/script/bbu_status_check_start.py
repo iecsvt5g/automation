@@ -7,11 +7,12 @@ Created on 2022/08/25
 '''
 
 import sys, subprocess, pymysql, time
-sys.path.insert(0, '/root/automation/suite/linux/lib')
-# from gmail_notify import gmail_notify
+# sys.path.insert(0, '/root/automation/suite/linux/lib')
+sys.path.insert(0, '/etc/inventec_svt_deployment')
+# # from gmail_notify import gmail_notify
 from line_notify import line_notify
 from datetime import datetime
-from influx_db import infulx_db
+# from influx_db import infulx_db
 
 class bbu_check(object):
 	def log(self):
@@ -23,7 +24,7 @@ class bbu_check(object):
 		# g_n = gmail_notify()
 		l_n = line_notify()
 		result = datetime.now().strftime("%Y-%m-%d %H:%M:%S %p")
-		_ip = subprocess.check_output('ip address show enp0s20f0u1 | grep \"inet \" | awk {\'print $2\'}', shell=True)
+		_ip = subprocess.check_output('ip address show enp0s20f0u2 | grep \"inet \" | awk {\'print $2\'}', shell=True)
 		ip = str(_ip[0:-4]).split('b')[1]
 		print('ip = ' + ip)
 		message = 'BBU is started.\n' + 'ip = ' + str(ip) + '\n' + result
@@ -56,8 +57,8 @@ class bbu_check(object):
 
 if __name__ == '__main__':
 	bbu_status_check = bbu_check()
-	mydb = infulx_db("172.32.3.196", 8086, 'admin', 'admin', 'influx')
+	# mydb = infulx_db("172.32.3.196", 8086, 'admin', 'admin', 'influx')
 	status_check = bbu_status_check.log()
-	mydb.write(infulx_db.get_bbu_status(status_check))
+	# mydb.write(infulx_db.get_bbu_status(status_check))
 	_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
 	bbu_status_check.cloud_db(_time, status_check)
