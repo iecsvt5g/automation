@@ -28,9 +28,12 @@ class du(object):
 	'''
 	def _du_parser(self):
 		while True:
-			cell_tail = 'grep \'cell_idx\' logs_gNB_DU | awk \'END{print $(NF)}\''
-			du_tail = 'tail -n 100 /home/BaiBBU_XSS/BaiBBU_SXSS/DU/bin/logs_gNB_DU'
-			# du_tail = 'tail -n 100 logs_gNB_DU'
+			cell_tail= 'grep \'cell_idx\' /home/BaiBBU_XSS/BaiBBU_SXSS/DU/bin/logs_gNB_DU | awk \'END{print $(NF)}\''
+			# cell_tail = 'grep \'cell_idx\' logs_gNB_DU_155 | awk \'END{print $(NF)}\''
+			# cell_tail = 'grep \'cell_idx\' logs_gNB_DU_199 | awk \'END{print $(NF)}\''
+			du_tail = 'tail -n 500 /home/BaiBBU_XSS/BaiBBU_SXSS/DU/bin/logs_gNB_DU'
+			# du_tail = 'tail -n 500 logs_gNB_DU_155'
+			# du_tail = 'tail -n 500 logs_gNB_DU_199'
 			try:
 				cell_tail = check_output(cell_tail, shell=True).decode('utf-8').strip()
 				cell_tail = cell_tail.split('[')[1].split(']')[0]
@@ -45,7 +48,7 @@ class du(object):
 					r'::egress\D{1}(\d+\D+\d+)\D{1} pkt\D{1}(\d+)\D{1} \D+\d+\D+\d+\D+'\
 					r'RLC  DL traffic :ingress\D{1}(\d+\D+\d+)\D{1} pkt\D{1}(\d+)\D{1} '\
 						r'::egress\D{1}(\d+\D+\d+)\D{1} pkt\D{1}(\d+)\D{1} \D+\d+\D+\d+\D+RLCL  '\
-						r'DL traffic um throughput\D{1}(\d+\D+\d+)\D{1} um sche cnt\D+\d+\D+am throughput\D{1}(\d+\D+\d+)\D{1} am sche cnt\D{1}\d+\D{1}'
+						r'DL traffic um throughput\D{1}(\d+\D+\d+)\D{1} um sche cnt\D+\d+\D+am throughput\D{1}(\d+\D+\d+)\D{1} am sche cnt\D{1}\d+\D{1}\D+5GNR'
 			find_du_cell_str = r'5GNR SYSTEM OVERVIEW AT\D+\d+\D+\d+\D+\d+\D+(\d+)\D.*\D+.*\D+.*\D+.*'\
 					r'CRC_GOOD \D{1}(\d+)\D{1}\D+.*CRC_BAD\D{1}(\d+)\D{1}\D+.*UL_MCS_AVG\D{1}(\d+)\D{1}'\
 					r'\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*'\
@@ -55,7 +58,9 @@ class du(object):
 							r'\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+'\
 								r'MAC DL traffic :ingress\D{1}(\d+\D+\d+)\D{1}\D+.*'
 			contentRex = re.findall(find_du_str, re_du)
+			print(contentRex)
 			contentRex_cell = re.findall(find_du_cell_str, re_du)
+			print(contentRex_cell)
 			if len(contentRex) == 0 or len(contentRex_cell) == 0:
 				break
 			else:
@@ -65,15 +70,7 @@ class du(object):
 				len_contentRex = len(contentRex)-1
 				# print(len_contentRex, 'len')
 				re_contentRex = contentRex[len_contentRex]
-				# print(re_contentRex)
-				
-				# contentRex cell
-				contentRex_cell = contentRex_cell[:]
-				# print(contentRex_cell)
-				len_contentRex = len(contentRex_cell)-1
-				# print(len_contentRex, 'len')
-				re_contentRex_cell = contentRex_cell[len_contentRex]
-				# print(re_contentRex_cell)
+				print(re_contentRex)
 
 				timerRex = re_contentRex[0]
 				# print(timerRex)
@@ -81,6 +78,18 @@ class du(object):
 				print(utc_time)
 				ip = self._ip_parser()
 				print(ip)
+				
+				# contentRex cell
+				contentRex_cell = contentRex_cell[:]
+				# print(contentRex_cell)
+				len_contentRex = len(contentRex_cell)-1
+				# print(len_contentRex, 'len')
+				re_contentRex_cell = contentRex_cell[len_contentRex]
+				print(re_contentRex_cell)
+
+				# for cell in range(int(cell_tail)):
+				# 	re_contentRex_cell = re_contentRex_cell[cell]
+				# 	print(re_contentRex_cell, 'test')
 
 				# for i in range(1, 11):
 				# 	print('contentRex', re_contentRex[i])
@@ -97,7 +106,7 @@ class du(object):
 
 				# for j in range(12):
 				# 	print('re_contentRex_cell', re_contentRex_cell[j])
-				# print('Cell number', re_contentRex_cell[0])
+				# print('Cell', re_contentRex_cell[0])
 				# print('CRC GOOD', re_contentRex_cell[1])
 				# print('CRC BAD', re_contentRex_cell[2])
 				# print('UL MCS ACG', re_contentRex_cell[3])
@@ -109,8 +118,8 @@ class du(object):
 				# print('UL Scheduled Layer_2', re_contentRex_cell[9])
 				# print('macActiveUe', re_contentRex_cell[10])
 				# print('MAC DL traffic ingress', re_contentRex_cell[11])
-
-				self.insert_database(utc_time, ip
+					
+				self.insert_database(utc_time, ip\
 					, re_contentRex[1], re_contentRex[2], re_contentRex[3], re_contentRex[4], re_contentRex[5]\
 					, re_contentRex[6], re_contentRex[7], re_contentRex[8], re_contentRex[9], re_contentRex[10]\
 					, re_contentRex_cell[0], re_contentRex_cell[1], re_contentRex_cell[2], re_contentRex_cell[3]\
