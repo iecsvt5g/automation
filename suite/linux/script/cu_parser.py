@@ -10,6 +10,10 @@ from subprocess import check_output
 from pymysql import connect
 from time import *
 import re
+from configparser import ConfigParser
+
+config = ConfigParser()
+config.read('/etc/inventec_svt_deployment/setting.ini')
 
 class cu(object):
 	'''
@@ -80,7 +84,8 @@ class cu(object):
 	def insert_database(self, datetime, ip, dl_pdcp_ingress, dl_pdcp_egress, ul_pdcp_ingress, ul_pdcp_egress, dl_gtpu_ingress, dl_gtpu_egress):
 		try:
 			mysql_info = {
-				'host': '172.32.3.153',
+				# 'host': '172.32.3.153',
+				'host': config.get('setting', 'mysql_ip'),
 				'port': 3306,
 				'user': 'svt',
 				'password': '1qaz@WSXiecsvt5g',

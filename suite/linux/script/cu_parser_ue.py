@@ -6,11 +6,14 @@ Created on 2022/09/27
 @title: CU Parser UE
 '''
 
-from curses.ascii import isdigit
 from subprocess import check_output
 from pymysql import connect
 from time import *
 import re
+from configparser import ConfigParser
+
+config = ConfigParser()
+config.read('/etc/inventec_svt_deployment/setting.ini')
 
 class cu_ue(object):
 	'''
@@ -88,7 +91,8 @@ class cu_ue(object):
 	def insert_database(self, datetime, ip, num_of_active_ue):
 		try:
 			mysql_info = {
-				'host': '172.32.3.153',
+				# 'host': '172.32.3.153',
+				'host': config.get('setting', 'mysql_ip'),
 				'port': 3306,
 				'user': 'svt',
 				'password': '1qaz@WSXiecsvt5g',

@@ -11,6 +11,10 @@ from pymysql import connect
 from time import *
 from line_notify import line_notify
 import re
+from configparser import ConfigParser
+
+config = ConfigParser()
+config.read('/etc/inventec_svt_deployment/setting.ini')
 
 class du(object):
 	'''
@@ -182,7 +186,8 @@ class du(object):
 			UL_Scheduled_Layer_1, UL_Scheduled_Layer_2, macActiveUe, avgPrbAsgnRateDl, avgPrbAsgnRateUl, MAC_DL_traffic_ingress):
 		try:
 			mysql_info = {
-				'host': '172.32.3.153',
+				# 'host': '172.32.3.153',
+				'host': config.get('setting', 'mysql_ip'),
 				'port': 3306,
 				'user': 'svt',
 				'password': '1qaz@WSXiecsvt5g',

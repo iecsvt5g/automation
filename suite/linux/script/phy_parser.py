@@ -9,6 +9,10 @@ Created on 2022/09/17
 from subprocess import check_output
 from pymysql import connect
 from time import *
+from configparser import ConfigParser
+
+config = ConfigParser()
+config.read('/etc/inventec_svt_deployment/setting.ini')
 
 class phy(object):
 	'''
@@ -104,7 +108,8 @@ class phy(object):
 	def insert_database(self, time_list, ip, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr):
 		try:
 			mysql_info = {
-				'host': '172.32.3.153',
+				# 'host': '172.32.3.153',
+				'host': config.get('setting', 'mysql_ip'),
 				'port': 3306,
 				'user': 'svt',
 				'password': '1qaz@WSXiecsvt5g',

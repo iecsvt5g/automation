@@ -11,6 +11,10 @@ from subprocess import check_output
 from pymysql import connect
 from time import *
 import re
+from configparser import ConfigParser
+
+config = ConfigParser()
+config.read('/etc/inventec_svt_deployment/setting.ini')
 
 class watchdog(object):
 	'''
@@ -88,7 +92,8 @@ class watchdog(object):
 	def insert_database(self, datetime, ip, die_status):
 		try:
 			mysql_info = {
-				'host': '172.32.3.153',
+				# 'host': '172.32.3.153',
+				'host': config.get('setting', 'mysql_ip'),
 				'port': 3306,
 				'user': 'svt',
 				'password': '1qaz@WSXiecsvt5g',

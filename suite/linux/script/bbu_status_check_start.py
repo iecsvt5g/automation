@@ -6,14 +6,19 @@ Created on 2022/08/25
 @title: BBU status check.
 '''
 
-import sys, subprocess, pymysql, time
+# import sys, subprocess, pymysql, time
+import pymysql, time
 # sys.path.insert(0, '/root/automation/suite/linux/lib')
-sys.path.insert(0, '/etc/inventec_svt_deployment')
+# sys.path.insert(0, '/etc/inventec_svt_deployment')
 # # from gmail_notify import gmail_notify
 from line_notify import line_notify
 from datetime import datetime
 # from influx_db import infulx_db
 from subprocess import check_output
+from configparser import ConfigParser
+
+config = ConfigParser()
+config.read('/etc/inventec_svt_deployment/setting.ini')
 
 class bbu_check(object):
 	def log(self):
@@ -56,7 +61,8 @@ class bbu_check(object):
 					# 'user': 'TAO',
 					# 'password': 'admin',
 					# 'db': 'svt'
-					'host': '172.32.3.153',
+					# 'host': '172.32.3.153',
+					'host': config.get('setting', 'mysql_ip'),
 					'port': 3306,
 					'user': 'svt',
 					'password': '1qaz@WSXiecsvt5g',
