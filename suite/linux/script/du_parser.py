@@ -35,9 +35,11 @@ class du(object):
 		status_check = 0
 		while True:
 			status_check += 1
-			if status_check > 100:
-				l_n = line_notify()
-				l_n.send_message('DU parser status > 100 times')
+			if status_check > 999 and int(status_check % 10) == 0:
+				_ip = self._ip_parser()
+				line_notify().send_message('\n(Notification)\nIP = ' + _ip + \
+					'\nDU parser is NOT found element > ' + str(status_check) + ' times')
+				sleep(300)
 			cell_tail= 'grep \'cell_idx\' /home/BaiBBU_XSS/BaiBBU_SXSS/DU/bin/logs_gNB_DU | awk \'END{print $(NF)}\''
 			# cell_tail = 'grep \'cell_idx\' logs_gNB_DU_155 | awk \'END{print $(NF)}\''
 			# cell_tail = 'grep \'cell_idx\' logs_gNB_DU_199 | awk \'END{print $(NF)}\''
