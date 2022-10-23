@@ -35,7 +35,7 @@ class du(object):
 		status_check = 0
 		while True:
 			status_check += 1
-			print('status_check', status_check)
+			# print('status_check', status_check)
 			if status_check > 999 and int(status_check % 1000) == 0:
 				_ip = self._ip_parser()
 				line_notify().send_message('\n(Notification)\nIP = ' + _ip + \
@@ -162,7 +162,8 @@ class du(object):
 				break
 			except:
 				sleep(1)
-				pass
+				# pass
+				break
 
 	'''
 	IP Address Parser
