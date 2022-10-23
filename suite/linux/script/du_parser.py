@@ -35,11 +35,12 @@ class du(object):
 		status_check = 0
 		while True:
 			status_check += 1
-			if status_check > 999 and int(status_check % 10) == 0:
+			print('status_check', status_check)
+			if status_check > 999 and int(status_check % 1000) == 0:
 				_ip = self._ip_parser()
 				line_notify().send_message('\n(Notification)\nIP = ' + _ip + \
 					'\nDU parser is NOT found element > ' + str(status_check) + ' times')
-				sleep(300)
+				sleep(1)
 			cell_tail= 'grep \'cell_idx\' /home/BaiBBU_XSS/BaiBBU_SXSS/DU/bin/logs_gNB_DU | awk \'END{print $(NF)}\''
 			# cell_tail = 'grep \'cell_idx\' logs_gNB_DU_155 | awk \'END{print $(NF)}\''
 			# cell_tail = 'grep \'cell_idx\' logs_gNB_DU_199 | awk \'END{print $(NF)}\''
@@ -52,10 +53,8 @@ class du(object):
 				cell_tail = int(cell_tail) + 1
 				print('Cell number:', cell_tail)
 				re_du = check_output(du_tail, shell=True).decode('utf-8').strip()
-			except:
-				break
+				# print(re_du, 're_du')
 
-			try:
 				# contentRex
 				find_du_str = ''
 				find_du_str = r'Timer:(\D+\d+\D+\d+\D+\d+\D+\d+\D+\d+)\D+RLC  '\
@@ -68,6 +67,7 @@ class du(object):
 				contentRex = re.findall(find_du_str, re_du)
 				print(contentRex, 'find_du_str findall')
 				if len(contentRex) == 0:
+					print('len(contentRex) == 0')
 					break
 				for cell_number in range(int(cell_tail)):
 					find_du_cell_str = ''
@@ -83,6 +83,7 @@ class du(object):
 					contentRex_cell = re.findall(find_du_cell_str, re_du)
 					print(contentRex_cell)
 					if len(contentRex_cell) == 0:
+						print('len(contentRex_cell) == 0')
 						break
 					else:
 						# contentRex
@@ -158,12 +159,10 @@ class du(object):
 						# 	re_contentRex_cell[9], re_contentRex_cell[10], re_contentRex_cell[11], re_contentRex_cell[12], re_contentRex_cell[13], \
 						# 	re_contentRex_cell[14], re_contentRex_cell[15], re_contentRex_cell[16], re_contentRex_cell[17], re_contentRex_cell[18])
 						print('Insert database is done.')
-				sleep(1)
-				if len(contentRex_cell) == 0:
-					break
 				break
 			except:
-				continue
+				sleep(1)
+				pass
 
 	'''
 	IP Address Parser
@@ -224,4 +223,4 @@ if __name__ == '__main__':
 	while True:
 		func = du()
 		func._du_parser()
-		sleep(9)
+		sleep(6)
