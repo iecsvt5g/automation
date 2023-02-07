@@ -10,6 +10,7 @@ from subprocess import check_output
 from pymysql import connect
 from time import *
 from configparser import ConfigParser
+from math import log
 
 config = ConfigParser()
 config.read('/etc/inventec_svt_deployment/setting.ini')
@@ -84,6 +85,8 @@ class phy(object):
 					ul_bler = float(show_phy_str[4])
 				elif index == 5:
 					srs_snr = int(show_phy_str[5])
+					if srs_snr > 100:
+						srs_snr = int(100 + log(srs_snr-100, 10))
 				else:
 					pass
 			cell = str(cell)
