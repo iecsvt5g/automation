@@ -87,6 +87,9 @@ class phy(object):
 					srs_snr = int(show_phy_str[5])
 					if srs_snr > 100:
 						srs_snr = int(100 + log(srs_snr-100, 10))
+					if srs_snr < -100:
+						srs_snr*= -1
+						srs_snr = int(100 + log(srs_snr-100, 10))*(-1)
 				else:
 					pass
 			cell = str(cell)
