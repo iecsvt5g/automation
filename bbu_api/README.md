@@ -23,9 +23,9 @@ sh update_service.sh
 
 
 ### NOTE ###
-api.py              = RestFul API
-server.log          = Service log
-start_service.sh    = Script to start API
-bbu_api.service     = Linux Service
-README.md           = README
-update_service.sh   = Script to update API from server
+api.py              = RestFul API<br>
+server.log          = Service log<br>
+start_service.sh    = Script to start API<br>
+bbu_api.service     = Linux Service<br>
+README.md           = README<br>
+update_service.sh   = Script to update API from server<br>
