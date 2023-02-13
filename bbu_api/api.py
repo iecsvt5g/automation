@@ -32,9 +32,9 @@ import subprocess
 
 
 
-####
-#### Settings ###
-####
+####            ####
+#### Settings   ####
+####            ####
 ## DEFAULT VALUE
 DEFAULT_PORT = 8877
 LOG_LEVEL = logging.INFO
@@ -67,7 +67,9 @@ fh.setFormatter(formatter)
 logger.addHandler(ch) # Show log on monitor
 logger.addHandler(fh) # Save log to file
 
-# UTIL
+####        ####
+#### UTIL   ####
+####        ####
 def get_ip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
@@ -150,9 +152,9 @@ async def ssh_twice_cmd(TEST_CMD,FIRST_IP, FIRST_USER, FIRST_PW, SECOND_IP, SECO
 
 
 
-####
-#### task ### (for schedule task)
-####
+####        ####
+#### task   ### (for schedule task)
+####        ####
 NoArgsNoReturnFuncT = Callable[[], None]
 NoArgsNoReturnAsyncFuncT = Callable[[], Coroutine[Any, Any, None]]
 NoArgsNoReturnDecorator = Callable[
@@ -202,10 +204,11 @@ def repeat_task(
     return decorator
 
 
-#### BBU modules ####
-##
+####                ####
+#### BBU modules    ####
+####                ####
+
 ## SystemInformation Class
-##
 class SystemInformation:
     def __init__(self):
         self.info = {}
@@ -242,9 +245,8 @@ class SystemInformation:
                 return f"{num_bytes:.2f} {unit}"
             num_bytes /= 1024.0
 
-##
+            
 ## BMC Class
-##
 class Bmc(object):
     def __init__(self,bbu_ip='172.32.3.155'):
         self.bbu_ip  = bbu_ip
@@ -275,9 +277,8 @@ class Bmc(object):
     def update(self):
         self.update_sdr()
 
-##
+        
 ## Acc Card Class
-##
 class AccCard(object):
     def __init__(self,bbu_ip='172.32.3.155',acc_ip="0.0.0.0",acc_mac=""):
         self.acc_ip  = acc_ip
@@ -321,9 +322,8 @@ class AccCard(object):
                 "TEMPERATURE":self.temperature,
                 "POWER":self.power}
 
-##
+    
 ##  RU Class
-##
 class RadioUnit(object):
     def __init__(self,bbu_ip='172.32.3.155',ru_ip="",ru_mac=""):
         self.bbu_ip = bbu_ip
@@ -363,9 +363,8 @@ class RadioUnit(object):
                 "STATUS":self.status,
                 "TEMPERATURE":self.temperature}
 
-##
+
 ## BBU Class
-##
 class MyBbu(object):
 
     def __init__(self,ip='172.32.3.155'):
