@@ -20,7 +20,8 @@ pip install psutil-5.9.4
 sh update_service.sh
 ``` 
 
-
+## Build Command
+pyinstaller --onefile --hidden-import=api api.py
 
 ### NOTE ###
 api.py              = RestFul API<br>
