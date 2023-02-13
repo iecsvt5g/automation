@@ -5,18 +5,20 @@
 
 ## Install 1. Install python3 libs
 # fastapi
+```  shell
 apt install python3-pip
 pip install fastapi # FastAPI
 pip install uvicorn[standard] # ASGI Server
 #
 pip install paramiko==2.6.0
 pip install psutil-5.9.4
-
+``` 
 ## 2. Copy codes from server
 
 ## 3. Install API
+```  shell
 sh update_service.sh
-
+``` 
 
 
 
