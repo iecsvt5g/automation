@@ -1,0 +1,9 @@
+[Unit]
+Description=Inventec BBU RESTful API service.
+
+[Service]
+Type=simple
+ExecStart=/bin/bash /opt/bbu_api/start_service.sh
+
+[Install]
+WantedBy=multi-user.target
