@@ -34,7 +34,10 @@ class bbu_check(object):
 		# ip = str(_ip[0:-4]).split('b')[1]
 		ip = self._ip_parser()
 		print('ip = ' + ip)
-		message = 'BBU is stopped.\n' + 'ip = ' + str(ip) + '\n' + result
+		with open('/etc/hostname', 'r+') as f:
+			hostname = f.readlines()[0]
+		print('hostname:', hostname)
+		message = 'BBU is stopped.\n' + 'ip = ' + str(ip) +'\n' + 'hostname: ' + hostname + '\n' + result
 		# g_n.gmail('iecsvt5g@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com', message)
 		l_n.send_message(message)
 		self.bbu_status = 0
