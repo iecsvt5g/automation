@@ -31,6 +31,9 @@ class cu_ue(object):
 	CU information parser: Num_Of_Active_UE
 	'''
 	def _cu_parser(self):
+		with open('/etc/hostname', 'r+') as f:
+			host_name = f.readlines()[0].strip()
+		# print('hostname:', host_name)
 		while True:
 			cu_tail = 'tail -n 100 /home/BaiBBU_XSS/BaiBBU_SXSS/CU/bin/pdcp.log'
 			# cu_tail = 'tail -n 100 20220927_16_pdcp.log'
@@ -69,7 +72,7 @@ class cu_ue(object):
 				re_contentRex = contentRex[len_contentRex]
 				re_contentRex = int(re_contentRex)
 				print(re_contentRex)
-				self.insert_database(utc_time, ip, re_contentRex)
+				self.insert_database(utc_time, ip, host_name, re_contentRex)
 				break
 
 	'''
@@ -89,7 +92,7 @@ class cu_ue(object):
 	'''
 	Insert into date to MySQL (phpmyadmin)
 	'''
-	def insert_database(self, datetime, ip, num_of_active_ue):
+	def insert_database(self, datetime, ip, host_name, num_of_active_ue):
 		try:
 			mysql_info = {
 				# 'host': '172.32.3.153',
@@ -101,10 +104,10 @@ class cu_ue(object):
 			}
 			conn = connect(**mysql_info)
 			cur = conn.cursor()
-			sql = """INSERT INTO {table}(DateTime , IP, Num_Of_Active_UE) \
-				VALUES(%s, %s, %s)""".format(table='cu_active_ue')
+			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, Num_Of_Active_UE) \
+				VALUES(%s, %s, %s, %s)""".format(table='cu_active_ue')
 			# print(sql)
-			cur.execute(sql, (datetime, ip, num_of_active_ue))
+			cur.execute(sql, (datetime, ip, host_name, num_of_active_ue))
 			conn.commit()
 			print('The information is commit to database.')
 		except Exception as e:
