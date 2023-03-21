@@ -32,6 +32,9 @@ class cu(object):
 	DL_GTPU_Ingress, DL_GTPU_Egress
 	'''
 	def _cu_parser(self):
+		with open('/etc/hostname', 'r+') as f:
+			host_name = f.readlines()[0].strip()
+		# print('hostname:', host_name)
 		while True:
 			cu_tail = 'tail -n 100 /home/BaiBBU_XSS/BaiBBU_SXSS/CU/bin/pdcp.log'
 			# cu_tail = 'tail -n 100 20220927_16_pdcp.log'
@@ -62,7 +65,7 @@ class cu(object):
 				print('DL PDCP egress traffic', re_contentRex[4])
 				print('UL PDCP ingress traffic', re_contentRex[5])
 				print('UL PDCP egress traffic', re_contentRex[6])
-				self.insert_database(utc_time, ip, re_contentRex[3], re_contentRex[4], re_contentRex[5], re_contentRex[6], re_contentRex[0], re_contentRex[1])
+				self.insert_database(utc_time, ip, host_name, re_contentRex[3], re_contentRex[4], re_contentRex[5], re_contentRex[6], re_contentRex[0], re_contentRex[1])
 				break
 
 	'''
@@ -82,7 +85,7 @@ class cu(object):
 	'''
 	Insert into date to MySQL (phpmyadmin)
 	'''
-	def insert_database(self, datetime, ip, dl_pdcp_ingress, dl_pdcp_egress, ul_pdcp_ingress, ul_pdcp_egress, dl_gtpu_ingress, dl_gtpu_egress):
+	def insert_database(self, datetime, ip, host_name, dl_pdcp_ingress, dl_pdcp_egress, ul_pdcp_ingress, ul_pdcp_egress, dl_gtpu_ingress, dl_gtpu_egress):
 		try:
 			mysql_info = {
 				# 'host': '172.32.3.153',
@@ -94,10 +97,10 @@ class cu(object):
 			}
 			conn = connect(**mysql_info)
 			cur = conn.cursor()
-			sql = """INSERT INTO {table}(DateTime , IP, DL_PDCP_Ingress, DL_PDCP_Egress, UL_PDCP_Ingress, UL_PDCP_Egress, DL_GTPU_Ingress, DL_GTPU_Egress) \
-				VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""".format(table='cu')
+			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, DL_PDCP_Ingress, DL_PDCP_Egress, UL_PDCP_Ingress, UL_PDCP_Egress, DL_GTPU_Ingress, DL_GTPU_Egress) \
+				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='cu')
 			# print(sql)
-			cur.execute(sql, (datetime, ip, dl_pdcp_ingress, dl_pdcp_egress, ul_pdcp_ingress, ul_pdcp_egress, dl_gtpu_ingress, dl_gtpu_egress))
+			cur.execute(sql, (datetime, ip, host_name, dl_pdcp_ingress, dl_pdcp_egress, ul_pdcp_ingress, ul_pdcp_egress, dl_gtpu_ingress, dl_gtpu_egress))
 			conn.commit()
 			print('The information is commit to database.')
 		except Exception as e:
