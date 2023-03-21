@@ -37,6 +37,9 @@ class phy(object):
 		time_parser = 'grep \""SysTimeInfo"\" \
 						/home/BaiBBU_XSS/BaiBBU_PXSS/PHY/bin/Phy.log \
 						| awk \'END{print $3, $4}\' | sed \'s/*//g\''
+		with open('/etc/hostname', 'r+') as f:
+			host_name = f.readlines()[0].strip()
+		# print('hostname:', host_name)
 		try:
 			time_parser = check_output(time_parser, shell=True).decode("utf-8").strip()	# parser datetime
 			time_parser = time_parser.split(' ')
@@ -93,7 +96,7 @@ class phy(object):
 				else:
 					pass
 			cell = str(cell)
-			self.insert_database(time_list, self._ip_parser(), cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr)
+			self.insert_database(time_list, self._ip_parser(), host_name, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr)
 
 	'''
 	IP Address Parser
@@ -112,7 +115,7 @@ class phy(object):
 	'''
 	Insert into date to MySQL (phpmyadmin)
 	'''
-	def insert_database(self, time_list, ip, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr):
+	def insert_database(self, time_list, ip, host_name, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr):
 		try:
 			mysql_info = {
 				# 'host': '172.32.3.153',
@@ -124,8 +127,8 @@ class phy(object):
 			}
 			conn = connect(**mysql_info)
 			cur = conn.cursor()
-			sql = """INSERT INTO {table}(DateTime , IP, CELL, DL_Tput, UL_Tput_1, UL_Tput_2, UL_BLER, SRS_SNR) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""".format(table='phy')
-			cur.execute(sql, (time_list, ip, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr))
+			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, CELL, DL_Tput, UL_Tput_1, UL_Tput_2, UL_BLER, SRS_SNR) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='phy')
+			cur.execute(sql, (time_list, ip, host_name, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr))
 			conn.commit()
 			print('The information is commit to database.')
 		except Exception as e:
