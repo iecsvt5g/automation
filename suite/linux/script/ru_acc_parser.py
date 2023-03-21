@@ -32,11 +32,13 @@ class ru_acc(object):
 	def _ru_acc_parser(self):
 		time_list = self.datetime_taiwan_to_utc(localtime())
 		print(time_list)
+		with open('/etc/hostname', 'r+') as f:
+			host_name = f.readlines()[0].strip()
+		print('hostname:', host_name)
 		ip_list = list()
 		ip_address_list  = os.popen('arp | grep xeth | awk {\'print $1\'}')
 		ip_address_list = ip_address_list.readlines()
 		for loop in range(len(ip_address_list)):
-			# print(ip_address_list[loop].strip())
 			ip_address_append = ip_address_list[loop].strip()
 			ip_list.append(ip_address_append)
 		print(ip_list)	# arp | grep xeth
@@ -61,7 +63,7 @@ class ru_acc(object):
 						print('Celsius is', temperature, 'degree')
 						acccard = list()
 						acccard.append(temperature)
-						self.insert_database(time_list, self._ip_parser(), ip_list[i], 'acc', acccard)
+						self.insert_database(time_list, self._ip_parser(), host_name, ip_list[i], 'acc', acccard)
 					except:
 						pass
 					ssh.close()
@@ -73,10 +75,8 @@ class ru_acc(object):
 						temperature = temperature.split('\n')
 						bairru_pru = list()
 						for show in range(3, 7):
-							# print(temperature[show].strip().split(' ')[0].split('|')[1], \
-		 					# 	temperature[show].strip().split(' ')[-4])
 							bairru_pru.append(temperature[show].strip().split(' ')[-4])
-						self.insert_database(time_list, self._ip_parser(), ip_list[i], 'ru', bairru_pru)
+						self.insert_database(time_list, self._ip_parser(), host_name, ip_list[i], 'ru', bairru_pru)
 					except:
 						pass
 					ssh.close()
@@ -86,8 +86,6 @@ class ru_acc(object):
 						stdin, stdout, stdrr = ssh.exec_command('ru_cmd radio antni')
 						temperature = stdout.read().decode().strip()
 						temperature = temperature.split('|')
-						# for show in range(len(temperature)):
-						# 	print(temperature[show])
 						print('RF CH:', temperature[-9-8*3].strip(), ',Temperature:', temperature[-3-8*3].strip())
 						print('RF CH:', temperature[-9-8*2].strip(), ',Temperature:', temperature[-3-8*2].strip())
 						print('RF CH:', temperature[-9-8*1].strip(), ',Temperature:', temperature[-3-8*1].strip())
@@ -97,9 +95,7 @@ class ru_acc(object):
 						pru.append(temperature[-3-8*1].strip())
 						pru.append(temperature[-3-8*1].strip())
 						pru.append(temperature[-3-8*0].strip())
-						# self.insert_database(time_list, self._ip_parser(), 'acc', \
-			   			# 	temperature[-3-8*3].strip(), temperature[-3-8*2].strip(), temperature[-3-8*1].strip(), temperature[-3-8*0].strip())
-						self.insert_database(time_list, self._ip_parser(), ip_list[i], 'ru', pru)
+						self.insert_database(time_list, self._ip_parser(), host_name, ip_list[i], 'ru', pru)
 					except:
 						pass
 					ssh.close()
@@ -143,7 +139,7 @@ class ru_acc(object):
 	'''
 	Insert into date to MySQL (phpmyadmin)
 	'''
-	def insert_database(self, time_list, ip, acc_ru_ip, name, temperature = []):
+	def insert_database(self, time_list, ip, host_name, acc_ru_ip, name, temperature = []):
 		# if name == 'acc':
 		# 	print(temperature[:])
 		# if name == 'ru':
@@ -163,13 +159,13 @@ class ru_acc(object):
 			conn = connect(**mysql_info)
 			cur = conn.cursor()
 			if name == 'acc':
-				sql = """INSERT INTO {table}(DateTime , IP, ACC_IP, ACC) VALUES(%s, %s, %s, %s)""".format(table='acc')
-				# print(sql, (time_list, ip, ru_ip, temperature[:]))
-				cur.execute(sql, (time_list, ip, acc_ru_ip, temperature[:]))
+				sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, ACC_IP, ACC) VALUES(%s, %s, %s, %s, %s)""".format(table='acc')
+				# print(sql, (time_list, ip, host_name, acc_ru_ip, temperature[:]))
+				cur.execute(sql, (time_list, ip, host_name, acc_ru_ip, temperature[:]))
 			elif name == 'ru':
-				sql = """INSERT INTO {table}(DateTime , IP, RU_IP, RU_0, RU_1, RU_2, RU_3) VALUES(%s, %s, %s, %s, %s, %s, %s)""".format(table='ru')
-				# print(sql, (time_list, ip, ru_ip, temperature[0], temperature[1], temperature[2], temperature[3]))
-				cur.execute(sql, (time_list, ip, acc_ru_ip, temperature[0], temperature[1], temperature[2], temperature[3]))
+				sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, RU_IP, RU_0, RU_1, RU_2, RU_3) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""".format(table='ru')
+				# print(sql, (time_list, ip, host_name, acc_ru_ip, temperature[0], temperature[1], temperature[2], temperature[3]))
+				cur.execute(sql, (time_list, ip, host_name, acc_ru_ip, temperature[0], temperature[1], temperature[2], temperature[3]))
 			else:
 				pass
 			conn.commit()
