@@ -33,6 +33,9 @@ class du(object):
 	'''
 	def _du_parser(self):
 		status_check = 0
+		with open('/etc/hostname', 'r+') as f:
+			host_name = f.readlines()[0].strip()
+		# print('hostname:', host_name)
 		while True:
 			status_check += 1
 			# print('status_check', status_check)
@@ -145,7 +148,7 @@ class du(object):
 						# print('avgPrbAsgnRateUl', re_contentRex_cell[17])
 						# print('MAC DL traffic ingress', re_contentRex_cell[18])
 							
-						self.insert_database(utc_time, ip, re_contentRex[1], re_contentRex[2], re_contentRex[3], re_contentRex[4], \
+						self.insert_database(utc_time, ip, host_name, re_contentRex[1], re_contentRex[2], re_contentRex[3], re_contentRex[4], \
 							re_contentRex[5], re_contentRex[6], re_contentRex[7], re_contentRex[8], re_contentRex[9], re_contentRex[10], \
 							re_contentRex_cell[19], re_contentRex_cell[0], re_contentRex_cell[1], re_contentRex_cell[2], re_contentRex_cell[3], \
 							re_contentRex_cell[4], re_contentRex_cell[5], re_contentRex_cell[6], re_contentRex_cell[7], re_contentRex_cell[8], \
@@ -182,7 +185,7 @@ class du(object):
 	'''
 	Insert into date to MySQL (phpmyadmin)
 	'''
-	def insert_database(self, datetime, ip, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
+	def insert_database(self, datetime, ip, host_name, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
 			DL_Ingress, DL_Ingress_PKT, DL_Egress, DL_Egress_PKT, RLCL_DL_UM_Throughput, RLCL_DL_AM_Throughput, \
 			Cell_number, CRC_GOOD, CRC_BAD, UL_MCS_AVG, PUSCH_PWR_0_45, PUSCH_PWR_45_90, PUSCH_PWR_90_135, \
 			PUSCH_PWR_135_180, PUSCH_PWR_180_225, PUSCH_PWR_225_273, ACK, NACK, UL_RANK_1, UL_RANK_2, \
@@ -198,15 +201,15 @@ class du(object):
 			}
 			conn = connect(**mysql_info)
 			cur = conn.cursor()
-			sql = """INSERT INTO {table}(DateTime , IP, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
+			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
 				DL_Ingress, DL_Ingress_PKT, DL_Egress, DL_Egress_PKT, RLCL_DL_UM_Throughput, RLCL_DL_AM_Throughput, \
 				Cell_number, CRC_GOOD, CRC_BAD, UL_MCS_AVG, PUSCH_PWR_0_45, PUSCH_PWR_45_90, PUSCH_PWR_90_135, \
 				PUSCH_PWR_135_180, PUSCH_PWR_180_225, PUSCH_PWR_225_273, ACK, NACK, UL_RANK_1, UL_RANK_2, \
 				UL_Scheduled_Layer_1, UL_Scheduled_Layer_2, macActiveUe, avgPrbAsgnRateDl, avgPrbAsgnRateUl, MAC_DL_traffic_ingress) \
-			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='du')
+			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='du')
 			# print(sql)
 			print('SQL print done.')
-			cur.execute(sql, (datetime, ip, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
+			cur.execute(sql, (datetime, ip, host_name, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
 				DL_Ingress, DL_Ingress_PKT, DL_Egress, DL_Egress_PKT, RLCL_DL_UM_Throughput, RLCL_DL_AM_Throughput, \
 				Cell_number, CRC_GOOD, CRC_BAD, UL_MCS_AVG, PUSCH_PWR_0_45, PUSCH_PWR_45_90, PUSCH_PWR_90_135, \
 				PUSCH_PWR_135_180, PUSCH_PWR_180_225, PUSCH_PWR_225_273, ACK, NACK, UL_RANK_1, UL_RANK_2, \
