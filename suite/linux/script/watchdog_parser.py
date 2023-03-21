@@ -32,6 +32,9 @@ class watchdog(object):
 	Watchdog information parser: Watchdog status parser
 	'''
 	def _watchdog_parser(self, initial_datetime):
+		with open('/etc/hostname', 'r+') as f:
+			host_name = f.readlines()[0].strip()
+		# print('hostname:', host_name)
 		try:
 			die_status = bool()
 			cu_tail = 'tail -n 500 /mnt/log/watchdog.log'
@@ -64,11 +67,11 @@ class watchdog(object):
 				if die_check == '[logCollect die]\n':
 					# print('value')
 					die_status = True
-					self.insert_database(utc_time, ip, die_status)
+					self.insert_database(utc_time, ip, host_name, die_status)
 				else:
 					# print('no value')
 					die_status = False
-					self.insert_database(utc_time, ip, die_status)
+					self.insert_database(utc_time, ip, host_name, die_status)
 			return initial_datetime
 		except:
 			pass
@@ -90,7 +93,7 @@ class watchdog(object):
 	'''
 	Insert into date to MySQL (phpmyadmin)
 	'''
-	def insert_database(self, datetime, ip, die_status):
+	def insert_database(self, datetime, ip, host_name, die_status):
 		try:
 			mysql_info = {
 				# 'host': '172.32.3.153',
@@ -102,10 +105,10 @@ class watchdog(object):
 			}
 			conn = connect(**mysql_info)
 			cur = conn.cursor()
-			sql = """INSERT INTO {table}(DateTime , IP, DIE_CHECK) \
-				VALUES(%s, %s, %s)""".format(table='watchdog')
+			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, DIE_CHECK) \
+				VALUES(%s, %s, %s, %s)""".format(table='watchdog')
 			# print(sql)
-			cur.execute(sql, (datetime, ip, die_status))
+			cur.execute(sql, (datetime, ip, host_name, die_status))
 			conn.commit()
 			print('The information is commit to database.')
 		except Exception as e:

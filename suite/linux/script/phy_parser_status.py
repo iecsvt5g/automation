@@ -31,6 +31,9 @@ class phy(object):
 	PHY information parser: PHY status parser
 	'''
 	def _phy_parser(self):
+		with open('/etc/hostname', 'r+') as f:
+			host_name = f.readlines()[0].strip()
+		# print('hostname:', host_name)
 		while True:
 			die_status = bool()
 			# gnb_io_fpga_thread_stop parser
@@ -58,7 +61,7 @@ class phy(object):
 				print('value')
 				utc_time = self.datetime_taiwan_to_utc(phy_local_time)
 				die_status = True
-				self.insert_database(utc_time, ip, die_status)
+				self.insert_database(utc_time, ip, host_name, die_status)
 				break
 			else:
 				print('no value', phy_local_time)
@@ -81,7 +84,7 @@ class phy(object):
 	'''
 	Insert into date to MySQL (phpmyadmin)
 	'''
-	def insert_database(self, datetime, ip, die_status):
+	def insert_database(self, datetime, ip, host_name, die_status):
 		try:
 			mysql_info = {
 				# 'host': '172.32.3.153',
@@ -93,10 +96,10 @@ class phy(object):
 			}
 			conn = connect(**mysql_info)
 			cur = conn.cursor()
-			sql = """INSERT INTO {table}(DateTime , IP, PHY_PARSER_STATUS) \
+			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, PHY_PARSER_STATUS) \
 				VALUES(%s, %s, %s)""".format(table='phy_parser_status')
 			# print(sql)
-			cur.execute(sql, (datetime, ip, die_status))
+			cur.execute(sql, (datetime, ip, host_name, die_status))
 			conn.commit()
 			print('The information is commit to database.')
 		except Exception as e:
