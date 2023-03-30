@@ -8,10 +8,12 @@ Created on 2023/03/16
 
 from pymysql import connect
 from time import *
+from line_notify import line_notify
 import paramiko, os, configparser
 
 config = configparser.ConfigParser()
 config.read('/etc/inventec_svt_deployment/setting.ini')
+line = line_notify()
 
 class ru_acc(object):
 	'''
@@ -29,7 +31,15 @@ class ru_acc(object):
 	'''
 	RU & rHub & AccCard information parser
 	'''
-	def _ru_acc_parser(self):
+	def _ru_acc_parser(self, acc_n, acc_warn_n, acc_critical_n, \
+				pru_n_0, pru_warn_n_0, pru_critical_n_0, \
+				pru_n_1, pru_warn_n_1, pru_critical_n_1, \
+				pru_n_2, pru_warn_n_2, pru_critical_n_2, \
+				pru_n_3, pru_warn_n_3, pru_critical_n_3, \
+				bairru_n_0, bairru_warn_n_0, bairru_critical_n_0, \
+				bairru_n_1, bairru_warn_n_1, bairru_critical_n_1, \
+				bairru_n_2, bairru_warn_n_2, bairru_critical_n_2, \
+				bairru_n_3, bairru_warn_n_3, bairru_critical_n_3):
 		time_list = self.datetime_taiwan_to_utc(localtime())
 		print(time_list)
 		with open('/etc/hostname', 'r+') as f:
@@ -63,6 +73,31 @@ class ru_acc(object):
 						print('Celsius is', temperature, 'degree')
 						acccard = list()
 						acccard.append(temperature)
+						if acc_n > 0 and int(temperature) <= int(config.get('ru_acc', 'temperature_warning')):
+							line.send_message('\nInfo.\nIP: ' + host_name + '\nAccCard Temperature: ' + str(temperature))
+							acc_n = 0
+						if int(temperature) > int(config.get('ru_acc', 'temperature_warning')) and int(temperature) <= int(config.get('ru_acc', 'temperature_critical')):
+							acc_critical_n = 0
+							if acc_n != acc_warn_n:
+								acc_n = 0
+								acc_warn_n = 0
+							if acc_warn_n == 0 or (acc_warn_n + 1) % 30 == 0:
+								line.send_message('\nWarning.\nIP: ' + host_name + '\nAccCard Temperature: ' + str(temperature) + ' > ' + config.get('ru_acc', 'temperature_warning'))
+							acc_n += 1
+							acc_warn_n = acc_n
+						elif int(temperature) > int(config.get('ru_acc', 'temperature_critical')):
+							acc_warn_n = 0
+							if acc_n != acc_critical_n:
+								acc_n = 0
+								acc_critical_n = 0
+							if (acc_critical_n + 1) > 0:
+								line.send_message('\nCritical.\nIP: ' + host_name + '\nAccCard Temperature: ' + str(temperature) + ' > ' + config.get('ru_acc', 'temperature_critical'))
+							else:
+								pass
+							acc_n += 1
+							acc_critical_n = acc_n
+						else:
+							pass
 						self.insert_database(time_list, self._ip_parser(), host_name, ip_list[i], 'acc', acccard)
 					except:
 						pass
@@ -76,6 +111,110 @@ class ru_acc(object):
 						bairru_pru = list()
 						for show in range(3, 7):
 							bairru_pru.append(temperature[show].strip().split(' ')[-4])
+						# RU0
+						if bairru_n_0 > 0 and int(bairru_pru[0]) <= int(config.get('ru_acc', 'pru_temperature_warning')):
+							line.send_message('\nInfo.\nIP: ' + host_name + '\nRU0 Temperature: ' + str(bairru_pru[0]))
+							bairru_n_0 = 0
+						if int(bairru_pru[0]) > int(config.get('ru_acc', 'pru_temperature_warning')) and int(bairru_pru[0]) <= int(config.get('ru_acc', 'pru_temperature_critical')):
+							bairru_critical_n_0 = 0
+							if bairru_n_0 != bairru_warn_n_0:
+								bairru_n_0 = 0
+								bairru_warn_n_0 = 0
+							if bairru_warn_n_0 == 0 or (bairru_warn_n_0 + 1) % 30 == 0:
+								line.send_message('\nWarning.\nIP: ' + host_name + '\nRU0 Temperature: ' + str(bairru_pru[0]) + ' > ' + config.get('ru_acc', 'pru_temperature_warning'))
+							bairru_n_0 += 1
+							bairru_warn_n_0 = bairru_n_0
+						elif int(bairru_pru[0]) > int(config.get('ru_acc', 'pru_temperature_critical')):
+							bairru_warn_n_0 = 0
+							if bairru_n_0 != bairru_critical_n_0:
+								bairru_n_0 = 0
+								bairru_critical_n_0 = 0
+							if (bairru_critical_n_0 + 1) > 0:
+								line.send_message('\nCritical.\nIP: ' + host_name + '\nRU0 Temperature: ' + str(bairru_pru[0]) + ' > ' + config.get('ru_acc', 'pru_temperature_critical'))
+							else:
+								pass
+							bairru_n_0 += 1
+							bairru_critical_n_0 = bairru_n_0
+						else:
+							pass
+						# RU1
+						if bairru_n_1 > 0 and int(bairru_pru[1]) <= int(config.get('ru_acc', 'pru_temperature_warning')):
+							line.send_message('\nInfo.\nIP: ' + host_name + '\nRU1 Temperature: ' + str(bairru_pru[1]))
+							bairru_n_1 = 0
+						if int(bairru_pru[1]) > int(config.get('ru_acc', 'pru_temperature_warning')) and int(bairru_pru[1]) <= int(config.get('ru_acc', 'pru_temperature_critical')):
+							bairru_critical_n_1 = 0
+							if bairru_n_1 != bairru_warn_n_1:
+								bairru_n_1 = 0
+								bairru_warn_n_1 = 0
+							if bairru_warn_n_1 == 0 or (bairru_warn_n_1 + 1) % 30 == 0:
+								line.send_message('\nWarning.\nIP: ' + host_name + '\nRU1 Temperature: ' + str(bairru_pru[1]) + ' > ' + config.get('ru_acc', 'pru_temperature_warning'))
+							bairru_n_1 += 1
+							bairru_warn_n_1 = bairru_n_1
+						elif int(bairru_pru[1]) > int(config.get('ru_acc', 'pru_temperature_critical')):
+							bairru_warn_n_1 = 0
+							if bairru_n_1 != bairru_critical_n_1:
+								bairru_n_1 = 0
+								bairru_critical_n_1 = 0
+							if (bairru_critical_n_1 + 1) > 0:
+								line.send_message('\nCritical.\nIP: ' + host_name + '\nRU1 Temperature: ' + str(bairru_pru[1]) + ' > ' + config.get('ru_acc', 'pru_temperature_critical'))
+							else:
+								pass
+							bairru_n_1 += 1
+							bairru_critical_n_1 = bairru_n_1
+						else:
+							pass
+						# RU2
+						if bairru_n_2 > 0 and int(bairru_pru[2]) <= int(config.get('ru_acc', 'pru_temperature_warning')):
+							line.send_message('\nInfo.\nIP: ' + host_name + '\nRU2 Temperature: ' + str(bairru_pru[2]))
+							bairru_n_2 = 0
+						if int(bairru_pru[2]) > int(config.get('ru_acc', 'pru_temperature_warning')) and int(bairru_pru[2]) <= int(config.get('ru_acc', 'pru_temperature_critical')):
+							bairru_critical_n_2 = 0
+							if bairru_n_2 != bairru_warn_n_2:
+								bairru_n_2 = 0
+								bairru_warn_n_2 = 0
+							if bairru_warn_n_2 == 0 or (bairru_warn_n_2 + 1) % 30 == 0:
+								line.send_message('\nWarning.\nIP: ' + host_name + '\nRU2 Temperature: ' + str(bairru_pru[2]) + ' > ' + config.get('ru_acc', 'pru_temperature_warning'))
+							bairru_n_2 += 1
+							bairru_warn_n_2 = bairru_n_2
+						elif int(bairru_pru[2]) > int(config.get('ru_acc', 'pru_temperature_critical')):
+							bairru_warn_n_2 = 0
+							if bairru_n_2 != bairru_critical_n_2:
+								bairru_n_2 = 0
+								bairru_critical_n_2 = 0
+							if (bairru_critical_n_2 + 1) > 0:
+								line.send_message('\nCritical.\nIP: ' + host_name + '\nRU2 Temperature: ' + str(bairru_pru[2]) + ' > ' + config.get('ru_acc', 'pru_temperature_critical'))
+							else:
+								pass
+							bairru_n_2 += 1
+							bairru_critical_n_2 = bairru_n_2
+						else:
+							pass
+						# RU3
+						if bairru_n_3 > 0 and int(bairru_pru[3]) <= int(config.get('ru_acc', 'pru_temperature_warning')):
+							line.send_message('\nInfo.\nIP: ' + host_name + '\nRU3 Temperature: ' + str(bairru_pru[3]))
+							bairru_n_3 = 0
+						if int(bairru_pru[3]) > int(config.get('ru_acc', 'pru_temperature_warning')) and int(bairru_pru[3]) <= int(config.get('ru_acc', 'pru_temperature_critical')):
+							bairru_critical_n_3 = 0
+							if bairru_n_3 != bairru_warn_n_3:
+								bairru_n_3 = 0
+								bairru_warn_n_3 = 0
+							if bairru_warn_n_3 == 0 or (bairru_warn_n_3 + 1) % 30 == 0:
+								line.send_message('\nWarning.\nIP: ' + host_name + '\nRU3 Temperature: ' + str(bairru_pru[3]) + ' > ' + config.get('ru_acc', 'pru_temperature_warning'))
+							bairru_n_3 += 1
+							bairru_warn_n_3 = bairru_n_3
+						elif int(bairru_pru[3]) > int(config.get('ru_acc', 'pru_temperature_critical')):
+							bairru_warn_n_3 = 0
+							if bairru_n_3 != bairru_critical_n_3:
+								bairru_n_3 = 0
+								bairru_critical_n_3 = 0
+							if (bairru_critical_n_3 + 1) > 0:
+								line.send_message('\nCritical.\nIP: ' + host_name + '\nRU3 Temperature: ' + str(bairru_pru[3]) + ' > ' + config.get('ru_acc', 'pru_temperature_critical'))
+							else:
+								pass
+							bairru_n_3 += 1
+							bairru_critical_n_3 = bairru_n_3
+						else:
+							pass
 						self.insert_database(time_list, self._ip_parser(), host_name, ip_list[i], 'ru', bairru_pru)
 					except:
 						pass
@@ -95,6 +234,112 @@ class ru_acc(object):
 						pru.append(temperature[-3-8*2].strip())
 						pru.append(temperature[-3-8*1].strip())
 						pru.append(temperature[-3-8*0].strip())
+						print(pru[0], pru[1], pru[2], pru[3])
+						# RU0
+						if pru_n_0 > 0 and int(pru[0]) <= int(config.get('ru_acc', 'pru_temperature_warning')):
+							line.send_message('\nInfo.\nIP: ' + host_name + '\nRU0 Temperature: ' + str(pru[0]))
+							pru_n_0 = 0
+						if int(pru[0]) > int(config.get('ru_acc', 'pru_temperature_warning')) and int(pru[0]) <= int(config.get('ru_acc', 'pru_temperature_critical')):
+							pru_critical_n_0 = 0
+							if pru_n_0 != pru_warn_n_0:
+								pru_n_0 = 0
+								pru_warn_n_0 = 0
+							if pru_warn_n_0 == 0 or (pru_warn_n_0 + 1) % 30 == 0:
+								line.send_message('\nWarning.\nIP: ' + host_name + '\nRU0 Temperature: ' + str(pru[0]) + ' > ' + config.get('ru_acc', 'pru_temperature_warning'))
+							pru_n_0 += 1
+							pru_warn_n_0 = pru_n_0
+						elif int(pru[0]) > int(config.get('ru_acc', 'pru_temperature_critical')):
+							pru_warn_n_0 = 0
+							if pru_n_0 != pru_critical_n_0:
+								pru_n_0 = 0
+								pru_critical_n_0 = 0
+							if (pru_critical_n_0 + 1) > 0:
+								line.send_message('\nCritical.\nIP: ' + host_name + '\nRU0 Temperature: ' + str(pru[0]) + ' > ' + config.get('ru_acc', 'pru_temperature_critical'))
+							else:
+								pass
+							pru_n_0 += 1
+							pru_critical_n_0 = pru_n_0
+						else:
+							pass
+						# RU1
+						if pru_n_1 > 0 and int(pru[1]) <= int(config.get('ru_acc', 'pru_temperature_warning')):
+							line.send_message('\nInfo.\nIP: ' + host_name + '\nRU1 Temperature: ' + str(pru[1]))
+							pru_n_1 = 0
+						if int(pru[1]) > int(config.get('ru_acc', 'pru_temperature_warning')) and int(pru[1]) <= int(config.get('ru_acc', 'pru_temperature_critical')):
+							pru_critical_n_1 = 0
+							if pru_n_1 != pru_warn_n_1:
+								pru_n_1 = 0
+								pru_warn_n_1 = 0
+							if pru_warn_n_1 == 0 or (pru_warn_n_1 + 1) % 30 == 0:
+								line.send_message('\nWarning.\nIP: ' + host_name + '\nRU1 Temperature: ' + str(pru[1]) + ' > ' + config.get('ru_acc', 'pru_temperature_warning'))
+							pru_n_1 += 1
+							pru_warn_n_1 = pru_n_1
+						elif int(pru[1]) > int(config.get('ru_acc', 'pru_temperature_critical')):
+							pru_warn_n_1 = 0
+							if pru_n_1 != pru_critical_n_1:
+								pru_n_1 = 0
+								pru_critical_n_1 = 0
+							if (pru_critical_n_1 + 1) > 0:
+								line.send_message('\nCritical.\nIP: ' + host_name + '\nRU1 Temperature: ' + str(pru[1]) + ' > ' + config.get('ru_acc', 'pru_temperature_critical'))
+							else:
+								pass
+							pru_n_1 += 1
+							pru_critical_n_1 = pru_n_1
+						else:
+							pass
+						# RU2
+						if pru_n_2 > 0 and int(pru[2]) <= int(config.get('ru_acc', 'pru_temperature_warning')):
+							line.send_message('\nInfo.\nIP: ' + host_name + '\nRU2 Temperature: ' + str(pru[2]))
+							pru_n_2 = 0
+						if int(pru[2]) > int(config.get('ru_acc', 'pru_temperature_warning')) and int(pru[2]) <= int(config.get('ru_acc', 'pru_temperature_critical')):
+							pru_critical_n_2 = 0
+							if pru_n_2 != pru_warn_n_2:
+								pru_n_2 = 0
+								pru_warn_n_2 = 0
+							if pru_warn_n_2 == 0 or (pru_warn_n_2 + 1) % 30 == 0:
+								line.send_message('\nWarning.\nIP: ' + host_name + '\nRU2 Temperature: ' + str(pru[2]) + ' > ' + config.get('ru_acc', 'pru_temperature_warning'))
+							pru_n_2 += 1
+							pru_warn_n_2 = pru_n_2
+						elif int(pru[2]) > int(config.get('ru_acc', 'pru_temperature_critical')):
+							pru_warn_n_2 = 0
+							if pru_n_2 != pru_critical_n_2:
+								pru_n_2 = 0
+								pru_critical_n_2 = 0
+							if (pru_critical_n_2 + 1) > 0:
+								line.send_message('\nCritical.\nIP: ' + host_name + '\nRU2 Temperature: ' + str(pru[2]) + ' > ' + config.get('ru_acc', 'pru_temperature_critical'))
+							else:
+								pass
+							pru_n_2 += 1
+							pru_critical_n_2 = pru_n_2
+						else:
+							pass
+						# RU3
+						if pru_n_3 > 0 and int(pru[3]) <= int(config.get('ru_acc', 'pru_temperature_warning')):
+							line.send_message('\nInfo.\nIP: ' + host_name + '\nRU3 Temperature: ' + str(pru[3]))
+							pru_n_3 = 0
+						if int(pru[3]) > int(config.get('ru_acc', 'pru_temperature_warning')) and int(pru[3]) <= int(config.get('ru_acc', 'pru_temperature_critical')):
+							pru_critical_n_3 = 0
+							if pru_n_3 != pru_warn_n_3:
+								pru_n_3 = 0
+								pru_warn_n_3 = 0
+							if pru_warn_n_3 == 0 or (pru_warn_n_3 + 1) % 30 == 0:
+								line.send_message('\nWarning.\nIP: ' + host_name + '\nRU3 Temperature: ' + str(pru[3]) + ' > ' + config.get('ru_acc', 'pru_temperature_warning'))
+							pru_n_3 += 1
+							pru_warn_n_3 = pru_n_3
+						elif int(pru[3]) > int(config.get('ru_acc', 'pru_temperature_critical')):
+							pru_warn_n_3 = 0
+							if pru_n_3 != pru_critical_n_3:
+								pru_n_3 = 0
+								pru_critical_n_3 = 0
+							if (pru_critical_n_3 + 1) > 0:
+								line.send_message('\nCritical.\nIP: ' + host_name + '\nRU3 Temperature: ' + str(pru[3]) + ' > ' + config.get('ru_acc', 'pru_temperature_critical'))
+							else:
+								pass
+							pru_n_3 += 1
+							pru_critical_n_3 = pru_n_3
+						else:
+							pass
+
 						self.insert_database(time_list, self._ip_parser(), host_name, ip_list[i], 'ru', pru)
 					except:
 						pass
@@ -109,7 +354,9 @@ class ru_acc(object):
 				ssh.close()
 			# sleep(1)
 			try:
-				ssh.connect(hostname=ip_list[i], port=22, username='root', password='Baicells@123')
+				rhub_user = config.get('ru_acc', 'user')
+				rhub_passwd = config.get('ru_acc', 'passwd')
+				ssh.connect(hostname=ip_list[i], port=22, username=rhub_user, password=rhub_passwd)
 				stdin, stdout, stdrr = ssh.exec_command('cat /etc/release')
 				rhub_result = stdout.read().decode().strip()
 				print(rhub_result)
@@ -125,6 +372,11 @@ class ru_acc(object):
 				ssh.close()
 			# sleep(1)
 		sleep(1)
+		return  acc_n, acc_warn_n, acc_critical_n, \
+				pru_n_0, pru_warn_n_0, pru_critical_n_0, pru_n_1, pru_warn_n_1, pru_critical_n_1, \
+				pru_n_2, pru_warn_n_2, pru_critical_n_2, pru_n_3, pru_warn_n_3, pru_critical_n_3, \
+				bairru_n_0, bairru_warn_n_0, bairru_critical_n_0, bairru_n_1, bairru_warn_n_1, bairru_critical_n_1, \
+				bairru_n_2, bairru_warn_n_2, bairru_critical_n_2, bairru_n_3, bairru_warn_n_3, bairru_critical_n_3
 
 	'''
 	IP Address Parser
@@ -175,7 +427,69 @@ class ru_acc(object):
 			pass
 
 if __name__ == '__main__':
+	acc_n = 0
+	acc_warn_n = 0
+	acc_critical_n = 0
+	pru_n_0 = 0
+	pru_warn_n_0 = 0
+	pru_critical_n_0 = 0
+	pru_n_1 = 0
+	pru_warn_n_1 = 0
+	pru_critical_n_1 = 0
+	pru_n_2 = 0
+	pru_warn_n_2 = 0
+	pru_critical_n_2 = 0
+	pru_n_3 = 0
+	pru_warn_n_3 = 0
+	pru_critical_n_3 = 0
+	bairru_n_0 = 0
+	bairru_warn_n_0 = 0
+	bairru_critical_n_0 = 0
+	bairru_n_1 = 0
+	bairru_warn_n_1 = 0
+	bairru_critical_n_1 = 0
+	bairru_n_2 = 0
+	bairru_warn_n_2 = 0
+	bairru_critical_n_2 = 0
+	bairru_n_3 = 0
+	bairru_warn_n_3 = 0
+	bairru_critical_n_3 = 0
 	while True:
+		# input_number0 = input()
+		# input_number1 = input()
+		# input_number2 = input()
+		# input_number3 = input()
+		# input_number = []
+		# input_number.append(input_number0)
+		# input_number.append(input_number1)
+		# input_number.append(input_number2)
+		# input_number.append(input_number3)
 		func = ru_acc()
-		func._ru_acc_parser()
+		acc_n, acc_warn_n, acc_critical_n, \
+		pru_n_0, pru_warn_n_0, pru_critical_n_0, \
+		pru_n_1, pru_warn_n_1, pru_critical_n_1, \
+		pru_n_2, pru_warn_n_2, pru_critical_n_2, \
+		pru_n_3, pru_warn_n_3, pru_critical_n_3, \
+		bairru_n_0, bairru_warn_n_0, bairru_critical_n_0, \
+		bairru_n_1, bairru_warn_n_1, bairru_critical_n_1, \
+		bairru_n_2, bairru_warn_n_2, bairru_critical_n_2, \
+		bairru_n_3, bairru_warn_n_3, bairru_critical_n_3 \
+			= func._ru_acc_parser(acc_n, acc_warn_n, acc_critical_n, \
+				pru_n_0, pru_warn_n_0, pru_critical_n_0, \
+				pru_n_1, pru_warn_n_1, pru_critical_n_1, \
+				pru_n_2, pru_warn_n_2, pru_critical_n_2, \
+				pru_n_3, pru_warn_n_3, pru_critical_n_3, \
+				bairru_n_0, bairru_warn_n_0, bairru_critical_n_0, \
+				bairru_n_1, bairru_warn_n_1, bairru_critical_n_1, \
+				bairru_n_2, bairru_warn_n_2, bairru_critical_n_2, \
+				bairru_n_3, bairru_warn_n_3, bairru_critical_n_3)
+		# print(acc_n, acc_warn_n, acc_critical_n, \
+		# 		pru_n_0, pru_warn_n_0, pru_critical_n_0, \
+		# 		pru_n_1, pru_warn_n_1, pru_critical_n_1, \
+		# 		pru_n_2, pru_warn_n_2, pru_critical_n_2, \
+		# 		pru_n_3, pru_warn_n_3, pru_critical_n_3, \
+		# 		bairru_n_0, bairru_warn_n_0, bairru_critical_n_0, \
+		# 		bairru_n_1, bairru_warn_n_1, bairru_critical_n_1, \
+		# 		bairru_n_2, bairru_warn_n_2, bairru_critical_n_2, \
+		# 		bairru_n_3, bairru_warn_n_3, bairru_critical_n_3)
 		sleep(60)
