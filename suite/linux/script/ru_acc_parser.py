@@ -73,14 +73,20 @@ class ru_acc(object):
 						print('Celsius is', temperature, 'degree')
 						acccard = list()
 						acccard.append(temperature)
+						# temperature = int(input())
 						if acc_n > 0 and int(temperature) <= int(config.get('ru_acc', 'temperature_warning')):
 							line.send_message('\nInfo.\nIP: ' + host_name + '\nAccCard Temperature: ' + str(temperature))
-							try:
-								os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x00 0x01')
-								os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x02 0x48 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan}'\
-		 									.format(fan=int(config.get('ru_acc', 'fan_low_speed_value'))))
-								print('Fan is low speed')
-							except:
+							if int(config.get('ru_acc', 'auto')) == int(1):
+								print('Fan is auto mode')
+								try:
+									os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x00 0x01')
+									os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x02 0x48 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan}'\
+												.format(fan=int(config.get('ru_acc', 'fan_low_speed_value'))))
+									print('Fan is low speed')
+								except:
+									pass
+							else:
+								print('Fan is manual mode')
 								pass
 							acc_n = 0
 						if int(temperature) > int(config.get('ru_acc', 'temperature_warning')) and int(temperature) <= int(config.get('ru_acc', 'temperature_critical')):
@@ -90,12 +96,17 @@ class ru_acc(object):
 								acc_warn_n = 0
 							if acc_warn_n == 0 or (acc_warn_n + 1) % 30 == 0:
 								line.send_message('\nWarning.\nIP: ' + host_name + '\nAccCard Temperature: ' + str(temperature) + ' > ' + config.get('ru_acc', 'temperature_warning'))
-								try:
-									os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x00 0x01')
-									os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x02 0x48 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan}'\
-												.format(fan=int(config.get('ru_acc', 'fan_high_speed_value'))))
-									print('Fan is high speed')
-								except:
+								if int(config.get('ru_acc', 'auto')) == int(1):
+									print('Fan is auto mode')							
+									try:
+										os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x00 0x01')
+										os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x02 0x48 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan}'\
+													.format(fan=int(config.get('ru_acc', 'fan_high_speed_value'))))
+										print('Fan is high speed')
+									except:
+										pass
+								else:
+									print('Fan is manual mode')
 									pass
 							acc_n += 1
 							acc_warn_n = acc_n
@@ -106,12 +117,17 @@ class ru_acc(object):
 								acc_critical_n = 0
 							if (acc_critical_n + 1) > 0:
 								line.send_message('\nCritical.\nIP: ' + host_name + '\nAccCard Temperature: ' + str(temperature) + ' > ' + config.get('ru_acc', 'temperature_critical'))
-								try:
-									os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x00 0x01')
-									os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x02 0x48 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan}'\
-												.format(fan=int(config.get('ru_acc', 'fan_high_speed_value'))))
-									print('Fan is high speed')
-								except:
+								if int(config.get('ru_acc', 'auto')) == int(1):
+									print('Fan is auto mode')							
+									try:
+										os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x00 0x01')
+										os.popen('ipmitool raw 0x2e 0x31 0xa9 0x19 0x00 0x02 0x48 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan} 0x{fan}'\
+													.format(fan=int(config.get('ru_acc', 'fan_high_speed_value'))))
+										print('Fan is high speed')
+									except:
+										pass
+								else:
+									print('Fan is manual mode')
 									pass
 							else:
 								pass
