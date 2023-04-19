@@ -61,6 +61,22 @@ class fan(object):
 					rpm_data.append(fans_rpm[i].strip())
 				print('rpm_data', rpm_data)
 				self.insert_database(utc_time, ip, host_name, len(fans_name), rpm_data)
+			elif popen(name).read().strip() == 'Supermicro':
+				print('It\'s Supermicro')
+				fans_name = popen('ipmitool sdr | grep FAN | awk \'{print $1}\'').readlines()
+				fans_rpm = popen('ipmitool sdr | grep FAN | awk \'{print $3}\'').readlines()
+				print(fans_name, fans_rpm)
+				for i in range(len(fans_name)):
+					if fans_rpm[i].strip() == 'no':
+						fans_rpm[i] = None
+						print(fans_name[i].strip(), fans_rpm[i])
+						rpm_data.append(fans_rpm[i])
+					else:
+						print(fans_name[i].strip(), fans_rpm[i].strip())
+						rpm_data.append(fans_rpm[i].strip())
+				print('rpm_data', rpm_data)
+				self.insert_database(utc_time, ip, host_name, len(fans_name), rpm_data)
+				sleep(1)
 			else:
 				print('No Fans RPM data')
 		except:
@@ -100,6 +116,11 @@ class fan(object):
 					VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='fan')
 				cur.execute(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5]))
 				# print(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5]))
+			elif fan_len == 8:
+				sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, FAN0, FAN1, FAN2, FAN3, FAN4, FAN5, FAN6, FAN7) \
+					VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='fan')
+				cur.execute(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5], rpm_data[6], rpm_data[7]))
+				# print(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5], rpm_data[6], rpm_data[7]))
 			else:
 				pass
 			conn.commit()
