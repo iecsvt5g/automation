@@ -8,19 +8,19 @@ Modified on 2023/04/13
 BLOCK
 
 function clean_log() {
-	echo "" > /root/zl/check_time.log
+	echo "" > /root/check_time.log
 }
 
 function version_check() {
 	if [[ $1 == "29" ]]
 	then
-		eeprom-tools -t $1 -r | grep uptime >> /root/zl/check_time.log 2>&1
+		eeprom-tools -t $1 -r | grep uptime >> /root/check_time.log 2>&1
 		echo "eeprom-tools -t $1 -r | grep uptime"
 	fi
 	if [[ $2 == mmcblk1p* ]] && [[ $3 == mmcblk1p* ]] 
 	then
-		lsblk | grep $2 >> /root/zl/check_time.log 2>&1
-		lsblk | grep $3 >> /root/zl/check_time.log 2>&1
+		lsblk | grep $2 >> /root/check_time.log 2>&1
+		lsblk | grep $3 >> /root/check_time.log 2>&1
 		echo "lsblk | grep $2, lsblk | grep $3"
 	fi
 }
@@ -28,11 +28,11 @@ function version_check() {
 function routing() {
 	if [[ $1 = */* ]] && [[ $2 = *.*.*.* ]]
 	then
-		/sbin/route del -net $1 gw $2 >> /root/zl/check_time.log 2>&1
-		echo "/sbin/route del -net $1 gw $2 >> /root/zl/check_time.log 2>&1"
+		/sbin/route del -net $1 gw $2 >> /root/check_time.log 2>&1
+		echo "/sbin/route del -net $1 gw $2 >> /root/check_time.log 2>&1"
 		sleep 1
-		/sbin/route add -net $1 gw $2 >> /root/zl/check_time.log 2>&1
-		echo "/sbin/route add -net $1 gw $2 >> /root/zl/check_time.log 2>&1"
+		/sbin/route add -net $1 gw $2 >> /root/check_time.log 2>&1
+		echo "/sbin/route add -net $1 gw $2 >> /root/check_time.log 2>&1"
 		sleep 1
 		echo "Add routing $1 gw $2"
 	else
