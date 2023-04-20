@@ -76,7 +76,7 @@ class fan(object):
 						rpm_data.append(fans_rpm[i].strip())
 				print('rpm_data', rpm_data)
 				self.insert_database(utc_time, ip, host_name, len(fans_name), rpm_data)
-				sleep(1)
+				sleep(60)
 			else:
 				print('No Fans RPM data')
 		except:
