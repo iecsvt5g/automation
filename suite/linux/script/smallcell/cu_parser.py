@@ -37,7 +37,7 @@ class cu(object):
 		# print('hostname:', host_name)
 		while True:
 			# cu_tail = 'tail -n 100 /home/BaiBBU_XSS/BaiBBU_SXSS/CU/bin/pdcp.log'
-			cu_tail = 'tail -n 100 /userdata/CU/bin/pdcp.0.log'
+			cu_tail = 'tail -n 100 /userdata/CU/bin/' + config.get('cu', 'filename')
 			# cu_tail = 'tail -n 100 20220927_16_pdcp.log'
 			try:
 				re_cu = check_output(cu_tail, shell=True).decode('utf-8').strip()
