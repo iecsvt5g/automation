@@ -60,12 +60,12 @@ class du(object):
 
 				# contentRex
 				find_du_str = ''
-				find_du_str = r'Timer:(\D+\d+\D+\d+\D+\d+\D+\d+\D+\d+)\D+RLC  '\
-					r'UL traffic :ingress\D{1}(\d+\D+\d+)\D{1} pkt\D{1}(\d+)\D{1} '\
-						r'::egress\D{1}(\d+\D+\d+)\D{1} pkt\D{1}(\d+)\D{1} \D+\d+\D+\d+\D+'\
-						r'RLC  DL traffic :ingress\D{1}(\d+\D+\d+)\D{1} pkt\D{1}(\d+)\D{1} '\
-							r'::egress\D{1}(\d+\D+\d+)\D{1} pkt\D{1}(\d+)\D{1} \D+\d+\D+\d+\D+RLCL  '\
-							r'DL traffic um throughput\D{1}(\d+\D+\d+)\D{1} um sche cnt\D+\d+\D+am throughput\D{1}(\d+\D+\d+)\D{1} am sche cnt\D{1}\d+\D{1}\D{1}'
+				find_du_str = r'Timer:(\D+\d+\D+\d+\D+\d+\D+\d+\D+\d+)\D+RLC '\
+					r'UL traffic: ingress\D{1}(\d+\D+\d+)\D{1} pkt\D{1}(\d+)\D{1} '\
+						r':: egress\D{1}(\d+\D+\d+)\D{1} pkt\D{1}(\d+)\D{1} \D+\d+\D+\d+\D+'\
+						r'RLC DL traffic: ingress\D{1}(\d+\D+\d+)\D{1} pkt\D{1}(\d+)\D{1} '\
+							r':: egress\D{1}(\d+\D+\d+)\D{1} pkt\D{1}(\d+)\D{1} \D+\d+\D+\d+\D+RLCL '\
+							r'DL traffic: um throughput\D{1}(\d+\D+\d+)\D{1} um sche cnt\D+\d+\D+am throughput\D{1}(\d+\D+\d+)\D{1} am sche cnt\D{1}\d+\D{1}\D{1}'
 				contentRex = ''
 				contentRex = re.findall(find_du_str, re_du)
 				print(contentRex, 'find_du_str findall')
@@ -88,7 +88,7 @@ class du(object):
 					find_du_cell_str = r'5GNR SYSTEM OVERVIEW AT\D+\d+\D+\d+\D+\d+\D+' + str(cell_number) + '\D.*\D+.*\D+.*\D+.*'\
 										r'\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*\D+.*macActiveUe\D{1}(\d+)\D{1}\D+.*\D+.*\D+.*\D+.*\D+.*'\
 										r'CRCGood\D{1}(\d+)\D{1} CRCBad\D{1}(\d+)\D{1}\D+.*NACK\D{1}(\d+)\D{1}\D+.*\D+.*\D+.*'\
-											r'MAC DL traffic :ingress\D{1}(\d+\D+\d+)\D{1}\D+.*cell_index\D{1}(\d+)\D{1}'
+											r'MAC DL traffic: ingress\D{1}(\d+\D+\d+)\D{1}\D+.*cell_index\D{1}(\d+)\D{1}'
 					# print(find_du_cell_str)
 					contentRex_cell = ''
 					contentRex_cell = re.findall(find_du_cell_str, re_du)
