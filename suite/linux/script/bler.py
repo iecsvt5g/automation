@@ -54,7 +54,6 @@ while True:
                 print('BBU error')
                 sleep(8)
         if value_ == 100:
-                #gmail_notify().gmail('iecsvt5g@gmail.com', 'iecsvt5g@gmail.com', 'BBU is dead!!!!!')
                 ms = 'BBU is dead!!!!!\n\n The UL BLER is ' + str(value_)
                 line_notify().send_message(ms)
                 print(time.strftime("%Y-%m-%d-%H-%M-%S"))
@@ -65,7 +64,6 @@ while True:
                 alarm_['count'] = alarm_['count'] + 1
         if alarm_['count'] == 10 and (time.time()-time_alarm) > 300  :
                 time_alarm = time.time()
-                #gmail_notify().gmail('iecsvt5g@gmail.com', 'iecsvt5g@gmail.com', 'BBU is dying(5 times BLER > 85%)')
                 line_notify().send_message('BBU is dying(10 times BLER > 85%) \
                                                                 \n\nThe BBU UL BLER is ' + str(value_))
                 alarm_={'count':0}
