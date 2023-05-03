@@ -38,7 +38,6 @@ class bbu_check(object):
 			hostname = f.readlines()[0]
 		print('hostname:', hostname)
 		message = 'BBU is started.\n' + 'ip = ' + str(ip) +'\n' + 'hostname: ' + hostname + '\n' + result
-		# g_n.gmail('iecsvt5g@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com', message)
 		l_n.send_message(message)
 		self.bbu_status = 1
 		return ip

@@ -40,7 +40,6 @@ class bler_parser(object):
 		message = '\n\nDear SVT members,\n\n\tWarning! \
 				\n\tWe are under a attack! \
 				\n\t"The SVT NOTIFY is notify by ZL demo.\"\n\nZL.'
-		g_n.gmail('iecsvt5g@gmail.com', 'Chen.ZL@inventec.com, iec100535@gmail.com', message)
 		l_n.send_message(message)
 
 if __name__ == '__main__':

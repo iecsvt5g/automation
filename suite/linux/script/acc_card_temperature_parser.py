@@ -47,7 +47,6 @@ class acc_parser(object):
 		message = '\n\nDear SVT members,\n\nWarning! \
 				\nRU Temperture > ' + res \
 				+ '\nTemperture list: \n' + str(content) + '\n\nNotification by SVT alert.'
-		g_n.gmail('iecsvt5g.family@gmail.com', 'iecsvt5g@gmail.com, Chen.ZL@inventec.com, iec100535@gmail.com', message)
 		l_n.send_message(message)
  
 if __name__ == '__main__':
