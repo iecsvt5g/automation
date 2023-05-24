@@ -10,7 +10,7 @@ from line_notify import line_notify
 
 #config setup 
 config = configparser.ConfigParser()
-config.read('setting.ini')
+config.read('/etc/inventec_svt_deployment/setting.ini')
 local_sql_ip = config['ping']['local_sql_ip']
 local_sql_port = config['ping']['local_sql_port']
 local_sql_user = config['ping']['local_sql_user']
