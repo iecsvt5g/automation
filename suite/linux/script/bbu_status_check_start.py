@@ -73,7 +73,7 @@ class bbu_check(object):
 					}
 			conn = pymysql.connect(**sql)
 			cur = conn.cursor()
-			sql = """INSERT INTO {table}(time, ip, bbu_status) VALUES(%s, %s, %s)""".format(table='bbu_status')
+			sql = """INSERT INTO {table}(DateTime, ip, bbu_status) VALUES(%s, %s, %s)""".format(table='bbu_status')
 			# cur.execute(sql, (_time, '172.32.3.155', r_0))
 			# cur.execute(sql, (_time, '172.32.3.155', str(bbu_status)))
 			cur.execute(sql, (_time, ip, str(bbu_status)))

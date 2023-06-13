@@ -120,4 +120,4 @@ if __name__ == '__main__':
 	while True:
 		func = watchdog()
 		initial_datetime = func._watchdog_parser(initial_datetime)
-		sleep(3)
+		sleep(5)

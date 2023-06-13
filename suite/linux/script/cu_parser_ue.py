@@ -118,4 +118,4 @@ if __name__ == '__main__':
 	while True:
 		func = cu_ue()
 		func._cu_parser()
-		sleep(3)
+		sleep(5)

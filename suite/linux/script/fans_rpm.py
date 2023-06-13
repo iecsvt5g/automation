@@ -134,4 +134,4 @@ if __name__ == '__main__':
 	name = 'dmidecode -s baseboard-manufacturer'
 	while True:
 		func._rpm(name)
-		sleep(1)
+		sleep(5)

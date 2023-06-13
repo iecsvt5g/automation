@@ -64,7 +64,7 @@ class bler_parser(object):
 					}
 			conn = pymysql.connect(**sql)
 			cur = conn.cursor()
-			sql = """INSERT INTO {table}(time, ip, phy_bler_0) VALUES(%s, %s, %s)""".format(table='phy_bler_parser')
+			sql = """INSERT INTO {table}(DateTime, ip, phy_bler_0) VALUES(%s, %s, %s)""".format(table='phy_bler_parser')
 			# sql = """INSERT INTO {table}(time, ip, phy_bler_0, phy_bler_1) VALUES(%s, %s, %s, %s)""".format(table='phy_bler_parser')
 			ip = self._ip_parser()
 			# print(_time, ip)
@@ -85,4 +85,4 @@ if __name__ == '__main__':
 		_time = time.strftime("%Y-%m-%d-%H-%M-%S", time.gmtime())
 		bler.cloud_db(_time, r_0)
 		# bler.cloud_db(_time, r_0, r_1)
-		sleep(3)
+		sleep(5)

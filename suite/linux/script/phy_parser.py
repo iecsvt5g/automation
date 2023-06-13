@@ -139,4 +139,4 @@ if __name__ == '__main__':
 	while True:
 		func = phy()
 		func._phy_parser()
-		sleep(3)
+		sleep(5)
