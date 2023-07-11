@@ -68,7 +68,7 @@ class du(object):
 							r'DL traffic: um throughput\D{1}(\d+\D+\d+)\D{1} um sche cnt\D+\d+\D+am throughput\D{1}(\d+\D+\d+)\D{1} am sche cnt\D{1}\d+\D{1}\D{1}'
 				contentRex = ''
 				contentRex = re.findall(find_du_str, re_du)
-				print(contentRex, 'find_du_str findall')
+				#print(contentRex, 'find_du_str findall')
 				if len(contentRex) == 0:
 					print('len(contentRex) == 0')
 					break
@@ -83,23 +83,28 @@ class du(object):
 									r'.*\D+.*\D+'\
 										r'MAC DL traffic :ingress\D{1}(\d+\D+\d+)\D{1}\D+.*cell_index\D{1}(\d+)\D{1}'
 					# print(find_du_cell_str)
+					ind_=[x.start() for x in re.finditer('Timer', re_du)]
 					contentRex_cell = ''
-					contentRex_cell = re.findall(find_du_cell_str, re_du)
-					print(contentRex_cell)
+					a=time()
+					contentRex_cell = re.findall(find_du_cell_str, re_du[ind_[-2]:ind_[-1]])
+					#contentRex_cell = re.findall(find_du_cell_str, re_du)
+					#print(contentRex_cell)
+					print('----------time take---------')
+					print(time()-a)
 					if len(contentRex_cell) == 0:
 						print('len(contentRex_cell) == 0')
 						break
 					else:
 						# contentRex
 						contentRex = contentRex[:]
-						print(contentRex, 'contentRex')
+						#print(contentRex, 'contentRex')
 						len_contentRex = len(contentRex)-1
-						print(len_contentRex, 'len')
+						#print(len_contentRex, 'len')
 						re_contentRex = contentRex[len_contentRex]
-						print(re_contentRex, 're_contentRex')
+						#print(re_contentRex, 're_contentRex')
 
 						timerRex = re_contentRex[0]
-						print(timerRex, 'timeRex')
+						#print(timerRex, 'timeRex')
 						utc_time = self.datetime_taiwan_to_utc(timerRex)
 						print(utc_time)
 						ip = self._ip_parser()
@@ -107,11 +112,11 @@ class du(object):
 						
 						# contentRex cell
 						new_contentRex_cell = contentRex_cell[:]
-						print(new_contentRex_cell, 'contentRex_cell')
+						#print(new_contentRex_cell, 'contentRex_cell')
 						len_contentRex = len(new_contentRex_cell)-1
-						print(len_contentRex, 'len')
+						#print(len_contentRex, 'len')
 						re_contentRex_cell = new_contentRex_cell[len_contentRex]
-						print(re_contentRex_cell, 're_contentRex_cell')
+						#print(re_contentRex_cell, 're_contentRex_cell')
 
 						# for i in range(1, 11):
 						# 	print('contentRex', re_contentRex[i])
@@ -229,4 +234,4 @@ if __name__ == '__main__':
 	while True:
 		func = du()
 		func._du_parser()
-		sleep(6)
+		sleep(10)
