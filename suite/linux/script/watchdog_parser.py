@@ -12,6 +12,7 @@ from pymysql import connect
 from time import *
 import re
 from configparser import ConfigParser
+from influxdb import InfluxDBClient
 
 config = ConfigParser()
 config.read('/etc/inventec_svt_deployment/setting.ini')
@@ -71,7 +72,9 @@ class watchdog(object):
 				else:
 					# print('no value')
 					die_status = False
-					self.insert_database(utc_time, ip, host_name, die_status)
+					influxdbtime=strptime(utc_time,'%Y-%m-%d %H:%M:%S')
+					influxdbtime=int((mktime(influxdbtime)+60*60*8)*1000)
+					self.insert_database(influxdbtime, ip, host_name, die_status)
 			return initial_datetime
 		except:
 			pass
@@ -93,27 +96,53 @@ class watchdog(object):
 	'''
 	Insert into date to MySQL (phpmyadmin)
 	'''
-	def insert_database(self, datetime, ip, host_name, die_status):
-		try:
-			mysql_info = {
-				# 'host': '172.32.3.153',
-				'host': config.get('setting', 'mysql_ip'),
-				'port': 3306,
-				'user': 'svt',
-				'password': '1qaz@WSXiecsvt5g',
-				'db': 'svt'
-			}
-			conn = connect(**mysql_info)
-			cur = conn.cursor()
-			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, DIE_CHECK) \
-				VALUES(%s, %s, %s, %s)""".format(table='watchdog')
-			# print(sql)
-			cur.execute(sql, (datetime, ip, host_name, die_status))
-			conn.commit()
-			print('The information is commit to database.')
-		except Exception as e:
-			# raise e
-			pass
+	# def insert_database(self, datetime, ip, host_name, die_status):
+	# 	try:
+	# 		mysql_info = {
+	# 			# 'host': '172.32.3.153',
+	# 			'host': config.get('setting', 'mysql_ip'),
+	# 			'port': 3306,
+	# 			'user': 'svt',
+	# 			'password': '1qaz@WSXiecsvt5g',
+	# 			'db': 'svt'
+	# 		}
+	# 		conn = connect(**mysql_info)
+	# 		cur = conn.cursor()
+	# 		sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, DIE_CHECK) \
+	# 			VALUES(%s, %s, %s, %s)""".format(table='watchdog')
+	# 		# print(sql)
+	# 		cur.execute(sql, (datetime, ip, host_name, die_status))
+	# 		conn.commit()
+	# 		print('The information is commit to database.')
+	# 	except Exception as e:
+	# 		# raise e
+	# 		pass
+
+
+	'''
+	insert into SMO influxdb
+ 	'''
+	def insert_database(self, TIME, IP, HOST_NAME, DIE_STATUS) :
+		try :
+			d= [{
+			"measurement": "watchdog_parser",
+			"tags": {
+				"ip": IP,
+				"hostname":HOST_NAME
+			},
+			"time": TIME,
+			"fields": { 'DIE_STATUS':DIE_STATUS
+					}
+				}]
+
+			client = InfluxDBClient("172.32.3.68",8086,'admin','admin','svt')
+			client.write_points(d)
+			print('Influxdb Insert Data GOOD')
+		except :
+			print('Influxdb Insert Data BAD')
+
+
+
 
 if __name__ == '__main__':
 	initial_datetime = ''
