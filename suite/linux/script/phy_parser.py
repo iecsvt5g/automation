@@ -162,9 +162,9 @@ class phy(object):
 
 			client = InfluxDBClient("172.32.3.68",8086,'admin','admin','svt')
 			client.write_points(d)
-			print('Influxdb Insert Data GOOOOOOD')
+			print('Influxdb Insert Data GOOD')
 		except :
-			print('Influxdb Insert Data BAAAAAAD')
+			print('Influxdb Insert Data BAD')
  
  
 if __name__ == '__main__':
