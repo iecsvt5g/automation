@@ -10,6 +10,7 @@ from time import *
 from os import popen
 from pymysql import connect
 from configparser import ConfigParser
+from influxdb import InfluxDBClient
 
 config = ConfigParser()
 config.read('/etc/inventec_svt_deployment/setting.ini')
@@ -49,7 +50,13 @@ class fan(object):
 					print(fans_name[i].strip(), fans_rpm[i].strip())
 					rpm_data.append(fans_rpm[i].strip())
 				print('rpm_data', rpm_data)
-				self.insert_database(utc_time, ip, host_name, len(fans_name), rpm_data)
+				influxdbtime=strptime(utc_time,'%Y-%m-%d %H:%M:%S')
+				influxdbtime=int((mktime(influxdbtime)+60*60*8)*1000)
+				while len(rpm_data) <= 8 :
+					rpm_data.append(None)
+				self.insert_database(influxdbtime, ip, host_name, 
+                         rpm_data[0],rpm_data[1],rpm_data[2],rpm_data[3],
+                         rpm_data[4],rpm_data[5],rpm_data[6],rpm_data[7])
 				sleep(60)
 			elif popen(name).read().strip() == 'Inventec':
 				print('It\'s Inventec')
@@ -60,7 +67,13 @@ class fan(object):
 					print(fans_name[i].strip(), fans_rpm[i].strip())
 					rpm_data.append(fans_rpm[i].strip())
 				print('rpm_data', rpm_data)
-				self.insert_database(utc_time, ip, host_name, len(fans_name), rpm_data)
+				influxdbtime=strptime(utc_time,'%Y-%m-%d %H:%M:%S')
+				influxdbtime=int((mktime(influxdbtime)+60*60*8)*1000)
+				while len(rpm_data) <= 8 :
+					rpm_data.append(None)
+				self.insert_database(influxdbtime, ip, host_name, 
+                         rpm_data[0],rpm_data[1],rpm_data[2],rpm_data[3],
+                         rpm_data[4],rpm_data[5],rpm_data[6],rpm_data[7])
 			elif popen(name).read().strip() == 'Supermicro':
 				print('It\'s Supermicro')
 				fans_name = popen('ipmitool sdr | grep FAN | awk \'{print $1}\'').readlines()
@@ -75,7 +88,13 @@ class fan(object):
 						print(fans_name[i].strip(), fans_rpm[i].strip())
 						rpm_data.append(fans_rpm[i].strip())
 				print('rpm_data', rpm_data)
-				self.insert_database(utc_time, ip, host_name, len(fans_name), rpm_data)
+				influxdbtime=strptime(utc_time,'%Y-%m-%d %H:%M:%S')
+				influxdbtime=int((mktime(influxdbtime)+60*60*8)*1000)
+				while len(rpm_data) <= 8 :
+					rpm_data.append(None)
+				self.insert_database(influxdbtime, ip, host_name, 
+                         rpm_data[0],rpm_data[1],rpm_data[2],rpm_data[3],
+                         rpm_data[4],rpm_data[5],rpm_data[6],rpm_data[7])
 				sleep(60)
 			else:
 				print('No Fans RPM data')
@@ -92,42 +111,67 @@ class fan(object):
 		except:
 			return 'Not Found IP'
 
+	# '''
+	# Insert into date to MySQL (phpmyadmin)
+	# '''
+	# def insert_database(self, datetime, ip, host_name, fan_len, rpm_data = []):
+	# 	try:
+	# 		mysql_info = {
+	# 			'host': config.get('setting', 'mysql_ip'),
+	# 			'port': 3306,
+	# 			'user': 'svt',
+	# 			'password': '1qaz@WSXiecsvt5g',
+	# 			'db': 'svt'
+	# 		}
+	# 		conn = connect(**mysql_info)
+	# 		cur = conn.cursor()
+	# 		if fan_len == 4:
+	# 			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, FAN0, FAN1, FAN2, FAN3) \
+	# 				VALUES(%s, %s, %s, %s, %s, %s, %s)""".format(table='fan')
+	# 			cur.execute(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3]))
+	# 			# print(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3]))
+	# 		elif fan_len == 6:
+	# 			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, FAN0, FAN1, FAN2, FAN3, FAN4, FAN5) \
+	# 				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='fan')
+	# 			cur.execute(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5]))
+	# 			# print(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5]))
+	# 		elif fan_len == 8:
+	# 			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, FAN0, FAN1, FAN2, FAN3, FAN4, FAN5, FAN6, FAN7) \
+	# 				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='fan')
+	# 			cur.execute(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5], rpm_data[6], rpm_data[7]))
+	# 			# print(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5], rpm_data[6], rpm_data[7]))
+	# 		else:
+	# 			pass
+	# 		conn.commit()
+	# 		print('The information is commit to database.')
+	# 	except Exception as e:
+	# 		# raise e
+	# 		pass
+ 
+ 
 	'''
-	Insert into date to MySQL (phpmyadmin)
-	'''
-	def insert_database(self, datetime, ip, host_name, fan_len, rpm_data = []):
-		try:
-			mysql_info = {
-				'host': config.get('setting', 'mysql_ip'),
-				'port': 3306,
-				'user': 'svt',
-				'password': '1qaz@WSXiecsvt5g',
-				'db': 'svt'
-			}
-			conn = connect(**mysql_info)
-			cur = conn.cursor()
-			if fan_len == 4:
-				sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, FAN0, FAN1, FAN2, FAN3) \
-					VALUES(%s, %s, %s, %s, %s, %s, %s)""".format(table='fan')
-				cur.execute(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3]))
-				# print(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3]))
-			elif fan_len == 6:
-				sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, FAN0, FAN1, FAN2, FAN3, FAN4, FAN5) \
-					VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='fan')
-				cur.execute(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5]))
-				# print(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5]))
-			elif fan_len == 8:
-				sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, FAN0, FAN1, FAN2, FAN3, FAN4, FAN5, FAN6, FAN7) \
-					VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='fan')
-				cur.execute(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5], rpm_data[6], rpm_data[7]))
-				# print(sql, (datetime, ip, host_name, rpm_data[0], rpm_data[1], rpm_data[2], rpm_data[3], rpm_data[4], rpm_data[5], rpm_data[6], rpm_data[7]))
-			else:
-				pass
-			conn.commit()
-			print('The information is commit to database.')
-		except Exception as e:
-			# raise e
-			pass
+	insert into SMO influxdb
+ 	'''
+	def insert_database(self, TIME, IP, HOST_NAME, FAN0,FAN1,FAN2,FAN3,FAN4,FAN5,FAN6,FAN7) :
+		try :
+			d= [{
+			"measurement": "fan_parser",
+			"tags": {
+				"ip": IP,
+				"hostname":HOST_NAME
+			},
+			"time": TIME,
+			"fields": { 'FAN0':FAN0,'FAN1':FAN1,'FAN2':FAN2,'FAN3':FAN3,
+						'FAN4':FAN4,'FAN5':FAN5,'FAN6':FAN6,'FAN7':FAN7
+					}
+				}]
+
+			client = InfluxDBClient("172.32.3.68",8086,'admin','admin','svt')
+			client.write_points(d)
+			print('Influxdb Insert Data GOOD')
+		except :
+			print('Influxdb Insert Data BAD')
+	
 
 if __name__ == '__main__':
 	func = fan()
