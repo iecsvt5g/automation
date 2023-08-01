@@ -161,8 +161,8 @@ class fan(object):
 				"hostname":HOST_NAME
 			},
 			"time": TIME,
-			"fields": { 'FAN0':FAN0,'FAN1':FAN1,'FAN2':FAN2,'FAN3':FAN3,
-						'FAN4':FAN4,'FAN5':FAN5,'FAN6':FAN6,'FAN7':FAN7
+			"fields": { 'fan0':FAN0,'fan1':FAN1,'fan2':FAN2,'fan3':FAN3,
+						'fan4':FAN4,'fan5':FAN5,'fan6':FAN6,'fan7':FAN7
 					}
 				}]
 

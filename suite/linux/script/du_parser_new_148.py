@@ -252,19 +252,19 @@ class du(object):
 				"CELL_NUMBER":CELL_NUMBER
 			},
 			"time": TIME,
-			"fields": { 'UL_INGRESS':UL_INGRESS,'UL_INGRESS_PKT':UL_INGRESS_PKT,
-						'UL_EGRESS':UL_EGRESS,'UL_EGRESS_PKT':UL_EGRESS_PKT,
-						'DL_INGRESS':DL_INGRESS,'DL_INGRESS_PKT':DL_INGRESS_PKT,
-						'DL_EGRESS':DL_EGRESS,'DL_EGRESS_PKT':DL_EGRESS_PKT,
-						'RLCL_DL_UM_Throughput':RLCL_DL_UM_THROUGHPUT,'RLCL_DL_AM_Throughput':RLCL_DL_AM_THROUGHPUT,
-						'CRC_GOOD':CRC_GOOD,'CRC_BAD':CRC_BAD,
-						'UL_MCS_AVG':UL_MCS_AVG,
-						'PUSCH_PWR_0_45':PUSCH_PWR_0_45,'PUSCH_PWR_45_90':PUSCH_PWR_45_90,'PUSCH_PWR_90_135':PUSCH_PWR_90_135,
-						'PUSCH_PWR_135_180':PUSCH_PWR_135_180,'PUSCH_PWR_180_225':PUSCH_PWR_180_225,'PUSCH_PWR_225_273':PUSCH_PWR_225_273,
-						'ACK':ACK,'NACK':NACK,'UL_RANK_1':UL_RANK_1,'UL_RANK_2':UL_RANK_2,
-						'UL_Scheduled_Layer_1':UL_SCHEDULED_Layer_1,'UL_Scheduled_Layer_2':UL_SCHEDULED_Layer_2,
-						'MacActiveUE':MACACTIVEUE,'avgPrbAsgnRateDL':avgPrbAsgnRateDL,'avgPrbAsgnRateUL':avgPrbAsgnRateUL,
-						'MAC_DL_traffic_ingress':MAC_DL_traffic_ingress
+			"fields": { 'ul_ingress':UL_INGRESS,'ul_ingress_pkt':UL_INGRESS_PKT,
+						'ul_egress':UL_EGRESS,'ul_egress_pkt':UL_EGRESS_PKT,
+						'dl_ingress':DL_INGRESS,'dl_ingress_pkt':DL_INGRESS_PKT,
+						'dl_egress':DL_EGRESS,'dl_egress_pkt':DL_EGRESS_PKT,
+						'rlcl_dl_um_throughput':RLCL_DL_UM_THROUGHPUT,'rlcl_dl_am_throughput':RLCL_DL_AM_THROUGHPUT,
+						'crc_good':CRC_GOOD,'crc_bad':CRC_BAD,
+						'ul_mcs_avg':UL_MCS_AVG,
+						'pusch_pwr_0_45':PUSCH_PWR_0_45,'pusch_pwr_45_90':PUSCH_PWR_45_90,'pusch_pwr_90_135':PUSCH_PWR_90_135,
+						'pusch_pwr_135_180':PUSCH_PWR_135_180,'pusch_pwr_180_225':PUSCH_PWR_180_225,'pusch_pwr_225_273':PUSCH_PWR_225_273,
+						'ack':ACK,'nack':NACK,'ul_rank_1':UL_RANK_1,'ul_rank_2':UL_RANK_2,
+						'ul_scheduled_layer_1':UL_SCHEDULED_Layer_1,'ul_scheduled_layer_2':UL_SCHEDULED_Layer_2,
+						'mac_active_ue':MACACTIVEUE,'avg_prb_asgn_rate_dl':avgPrbAsgnRateDL,'avg_prb_asgn_rate_ul':avgPrbAsgnRateUL,
+						'mac_dl_traffic_ingress':MAC_DL_traffic_ingress
 					}
 				}]
 

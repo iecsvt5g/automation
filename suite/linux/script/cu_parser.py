@@ -122,12 +122,12 @@ class cu(object):
 				"hostname":HOST_NAME
 			},
 			"time": TIME,
-			"fields": { 'DL_PDCP_INGRESS':DL_PDCP_INGRESS,
-						'DL_PDCP_EGRESS':DL_PDCP_EGRESS,
-						'UL_PDCP_INGRESS':UL_PDCP_INGRESS,
-						'UL_PDCP_EGRESS':UL_PDCP_EGRESS,
-						'DL_GTPU_INGRESS':DL_GTPU_INGRESS,
-						'DL_GTPU_EGRESS':DL_GTPU_EGRESS
+			"fields": { 'dl_pdcd_ingress':DL_PDCP_INGRESS,
+						'dl_pdcd_egress':DL_PDCP_EGRESS,
+						'ul_pdcd_ingress':UL_PDCP_INGRESS,
+						'ul_pdcd_egress':UL_PDCP_EGRESS,
+						'dl_gtpu_ingress':DL_GTPU_INGRESS,
+						'dl_gtpu_egress':DL_GTPU_EGRESS
 					}
 				}]
 

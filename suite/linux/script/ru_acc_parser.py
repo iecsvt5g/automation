@@ -10,6 +10,7 @@ from pymysql import connect
 from time import *
 from line_notify import line_notify
 import paramiko, os, configparser
+from influxdb import InfluxDBClient
 
 config = configparser.ConfigParser()
 config.read('/etc/inventec_svt_deployment/setting.ini')
@@ -135,7 +136,9 @@ class ru_acc(object):
 							acc_critical_n = acc_n
 						else:
 							pass
-						self.insert_database(time_list, self._ip_parser(), host_name, ip_list[i], 'acc', acccard)
+						influxdbtime=strptime(time_list,'%Y-%m-%d %H:%M:%S')
+						influxdbtime=int((mktime(influxdbtime)+60*60*8)*1000)
+						self.insert_database_acc(influxdbtime, self._ip_parser(), host_name, ip_list[i], temperature)
 					except:
 						pass
 					ssh.close()
@@ -252,7 +255,10 @@ class ru_acc(object):
 							bairru_critical_n_3 = bairru_n_3
 						else:
 							pass
-						self.insert_database(time_list, self._ip_parser(), host_name, ip_list[i], 'ru', bairru_pru)
+						influxdbtime=strptime(time_list,'%Y-%m-%d %H:%M:%S')
+						influxdbtime=int((mktime(influxdbtime)+60*60*8)*1000)
+						self.insert_database_ru(influxdbtime, self._ip_parser(), host_name, ip_list[i], 
+                              bairru_pru[0],bairru_pru[1],bairru_pru[2],bairru_pru[3])
 					except:
 						pass
 					ssh.close()
@@ -377,7 +383,8 @@ class ru_acc(object):
 						else:
 							pass
 
-						self.insert_database(time_list, self._ip_parser(), host_name, ip_list[i], 'ru', pru)
+						self.insert_database_ru(time_list, self._ip_parser(), host_name, ip_list[i], 
+                              pru[0],pru[1],pru[2],pru[3])
 					except:
 						pass
 					ssh.close()
@@ -425,43 +432,89 @@ class ru_acc(object):
 		except:
 			return 'Not Found IP'
 
+	# '''
+	# Insert into date to MySQL (phpmyadmin)
+	# '''
+	# def insert_database(self, time_list, ip, host_name, acc_ru_ip, name, temperature = []):
+	# 	# if name == 'acc':
+	# 	# 	print(temperature[:])
+	# 	# if name == 'ru':
+	# 	# 	print(temperature[0])
+	# 	# 	print(temperature[1])
+	# 	# 	print(temperature[2])
+	# 	# 	print(temperature[3])
+	# 	try:
+	# 		mysql_info = {
+	# 			# 'host': '172.32.3.153',
+	# 			'host': config.get('setting', 'mysql_ip'),
+	# 			'port': 3306,
+	# 			'user': 'svt',
+	# 			'password': '1qaz@WSXiecsvt5g',
+	# 			'db': 'svt'
+	# 		}
+	# 		conn = connect(**mysql_info)
+	# 		cur = conn.cursor()
+	# 		if name == 'acc':
+	# 			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, ACC_IP, ACC) VALUES(%s, %s, %s, %s, %s)""".format(table='acc')
+	# 			# print(sql, (time_list, ip, host_name, acc_ru_ip, temperature[:]))
+	# 			cur.execute(sql, (time_list, ip, host_name, acc_ru_ip, temperature[:]))
+	# 		elif name == 'ru':
+	# 			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, RU_IP, RU_0, RU_1, RU_2, RU_3) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""".format(table='ru')
+	# 			# print(sql, (time_list, ip, host_name, acc_ru_ip, temperature[0], temperature[1], temperature[2], temperature[3]))
+	# 			cur.execute(sql, (time_list, ip, host_name, acc_ru_ip, temperature[0], temperature[1], temperature[2], temperature[3]))
+	# 		else:
+	# 			pass
+	# 		conn.commit()
+	# 		print('The information is commit to database.')
+	# 	except Exception as e:
+	# 		# raise e
+	# 		pass
+
+
 	'''
-	Insert into date to MySQL (phpmyadmin)
-	'''
-	def insert_database(self, time_list, ip, host_name, acc_ru_ip, name, temperature = []):
-		# if name == 'acc':
-		# 	print(temperature[:])
-		# if name == 'ru':
-		# 	print(temperature[0])
-		# 	print(temperature[1])
-		# 	print(temperature[2])
-		# 	print(temperature[3])
-		try:
-			mysql_info = {
-				# 'host': '172.32.3.153',
-				'host': config.get('setting', 'mysql_ip'),
-				'port': 3306,
-				'user': 'svt',
-				'password': '1qaz@WSXiecsvt5g',
-				'db': 'svt'
-			}
-			conn = connect(**mysql_info)
-			cur = conn.cursor()
-			if name == 'acc':
-				sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, ACC_IP, ACC) VALUES(%s, %s, %s, %s, %s)""".format(table='acc')
-				# print(sql, (time_list, ip, host_name, acc_ru_ip, temperature[:]))
-				cur.execute(sql, (time_list, ip, host_name, acc_ru_ip, temperature[:]))
-			elif name == 'ru':
-				sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, RU_IP, RU_0, RU_1, RU_2, RU_3) VALUES(%s, %s, %s, %s, %s, %s, %s, %s)""".format(table='ru')
-				# print(sql, (time_list, ip, host_name, acc_ru_ip, temperature[0], temperature[1], temperature[2], temperature[3]))
-				cur.execute(sql, (time_list, ip, host_name, acc_ru_ip, temperature[0], temperature[1], temperature[2], temperature[3]))
-			else:
-				pass
-			conn.commit()
-			print('The information is commit to database.')
-		except Exception as e:
-			# raise e
-			pass
+	insert into SMO influxdb
+ 	'''
+	def insert_database_acc(self, TIME, IP, HOST_NAME, ACC_IP, ACC_Temp) :
+		try :
+			d= [{
+			"measurement": "acc_parser",
+			"tags": {
+				"ip": IP,
+				"hostname":HOST_NAME,
+				"acc_ip":ACC_IP
+			},
+			"time": TIME,
+			"fields": { 'acc_temp':ACC_Temp
+					}
+				}]
+
+			client = InfluxDBClient("172.32.3.68",8086,'admin','admin','svt')
+			client.write_points(d)
+			print('Influxdb Insert Data GOOD')
+		except :
+			print('Influxdb Insert Data BAD')
+   
+	def insert_database_ru(self, TIME, IP, HOST_NAME, RU_IP, RU_Temp0,RU_Temp1,RU_Temp2,RU_Temp3) :
+		try :
+			d= [{
+			"measurement": "ru_parser",
+			"tags": {
+				"ip": IP,
+				"hostname":HOST_NAME,
+				"ru_ip":RU_IP
+			},
+			"time": TIME,
+			"fields": { 'ru_temp0':RU_Temp0,'ru_temp1':RU_Temp1,'ru_temp2':RU_Temp2,'ru_temp3':RU_Temp3
+					}
+				}]
+
+			client = InfluxDBClient("172.32.3.68",8086,'admin','admin','svt')
+			client.write_points(d)
+			print('Influxdb Insert Data GOOD')
+		except :
+			print('Influxdb Insert Data BAD')
+
+
 
 if __name__ == '__main__':
 	acc_n = 0

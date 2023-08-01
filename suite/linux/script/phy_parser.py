@@ -152,11 +152,11 @@ class phy(object):
 				"cell" : CELL
 			},
 			"time": TIME,
-			"fields": { 'DL_1': DL_Tput, 
-						'UL_1': UL_Tput_1,
-						'UL_2': UL_Tput_2,
-						'BLER': UL_BLER,
-						'SRS_SNR': SRS_SNR
+			"fields": { 'dl_1': DL_Tput, 
+						'ul_1': UL_Tput_1,
+						'ul_2': UL_Tput_2,
+						'bler': UL_BLER,
+						'srs_snr': SRS_SNR
 					}
 				}]
 

@@ -131,7 +131,7 @@ class watchdog(object):
 				"hostname":HOST_NAME
 			},
 			"time": TIME,
-			"fields": { 'DIE_STATUS':DIE_STATUS
+			"fields": { 'die_status':DIE_STATUS
 					}
 				}]
 
