@@ -68,8 +68,8 @@ class cu(object):
 				print('DL PDCP egress traffic', re_contentRex[4])
 				print('UL PDCP ingress traffic', re_contentRex[5])
 				print('UL PDCP egress traffic', re_contentRex[6])
-				self.insert_database(influxdbtime, ip, host_name, re_contentRex[3], re_contentRex[4], re_contentRex[5], re_contentRex[6], re_contentRex[0], re_contentRex[1])
-				break
+				#self.insert_database(influxdbtime, ip, host_name, re_contentRex[3], re_contentRex[4], re_contentRex[5], re_contentRex[6], re_contentRex[0], re_contentRex[1])
+				self.insert_database(utc_time, ip, host_name, re_contentRex[3], re_contentRex[4], re_contentRex[5], re_contentRex[6], re_contentRex[0], re_contentRex[1])
 
 	'''
 	IP Address Parser
@@ -88,57 +88,58 @@ class cu(object):
 	'''
 	Insert into date to MySQL (phpmyadmin)
 	'''
-	# def insert_database(self, datetime, ip, host_name, dl_pdcp_ingress, dl_pdcp_egress, ul_pdcp_ingress, ul_pdcp_egress, dl_gtpu_ingress, dl_gtpu_egress):
-	# 	try:
-	# 		mysql_info = {
-	# 			# 'host': '172.32.3.153',
-	# 			'host': config.get('setting', 'mysql_ip'),
-	# 			'port': 3306,
-	# 			'user': 'svt',
-	# 			'password': '1qaz@WSXiecsvt5g',
-	# 			'db': 'svt'
-	# 		}
-	# 		conn = connect(**mysql_info)
-	# 		cur = conn.cursor()
-	# 		sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, DL_PDCP_Ingress, DL_PDCP_Egress, UL_PDCP_Ingress, UL_PDCP_Egress, DL_GTPU_Ingress, DL_GTPU_Egress) \
-	# 			VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='cu')
-	# 		# print(sql)
-	# 		cur.execute(sql, (datetime, ip, host_name, dl_pdcp_ingress, dl_pdcp_egress, ul_pdcp_ingress, ul_pdcp_egress, dl_gtpu_ingress, dl_gtpu_egress))
-	# 		conn.commit()
-	# 		print('The information is commit to database.')
-	# 	except Exception as e:
-	# 		# raise e
-	# 		pass
+	def insert_database(self, datetime, ip, host_name, dl_pdcp_ingress, dl_pdcp_egress, ul_pdcp_ingress, ul_pdcp_egress, dl_gtpu_ingress, dl_gtpu_egress):
+		try:
+			mysql_info = {
+				# 'host': '172.32.3.153',
+				'host': config.get('setting', 'mysql_ip'),
+				'port': 3306,
+				'user': 'svt',
+				'password': '1qaz@WSXiecsvt5g',
+				'db': 'svt'
+			}
+			conn = connect(**mysql_info)
+			cur = conn.cursor()
+			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, DL_PDCP_Ingress, DL_PDCP_Egress, UL_PDCP_Ingress, UL_PDCP_Egress, DL_GTPU_Ingress, DL_GTPU_Egress) \
+				VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='cu')
+			# print(sql)
+			cur.execute(sql, (datetime, ip, host_name, dl_pdcp_ingress, dl_pdcp_egress, ul_pdcp_ingress, ul_pdcp_egress, dl_gtpu_ingress, dl_gtpu_egress))
+			conn.commit()
+			print('The information is commit to database.')
+		except Exception as e:
+			# raise e
+			sleep(3)
+			pass
 	'''
 	insert into SMO influxdb
  	'''
-	def insert_database(self,TIME,IP,HOST_NAME,DL_PDCP_INGRESS,DL_PDCP_EGRESS,
-                     UL_PDCP_INGRESS, UL_PDCP_EGRESS, DL_GTPU_INGRESS, DL_GTPU_EGRESS) :
-		try :
-			d= [{
-			"measurement": "cu_parser",
-			"tags": {
-				"ip": IP,
-				"hostname":HOST_NAME
-			},
-			"time": TIME,
-			"fields": { 'dl_pdcd_ingress':DL_PDCP_INGRESS,
-						'dl_pdcd_egress':DL_PDCP_EGRESS,
-						'ul_pdcd_ingress':UL_PDCP_INGRESS,
-						'ul_pdcd_egress':UL_PDCP_EGRESS,
-						'dl_gtpu_ingress':DL_GTPU_INGRESS,
-						'dl_gtpu_egress':DL_GTPU_EGRESS
-					}
-				}]
+	# def insert_database(self,TIME,IP,HOST_NAME,DL_PDCP_INGRESS,DL_PDCP_EGRESS,
+    #                  UL_PDCP_INGRESS, UL_PDCP_EGRESS, DL_GTPU_INGRESS, DL_GTPU_EGRESS) :
+	# 	try :
+	# 		d= [{
+	# 		"measurement": "cu_parser",
+	# 		"tags": {
+	# 			"ip": IP,
+	# 			"hostname":HOST_NAME
+	# 		},
+	# 		"time": TIME,
+	# 		"fields": { 'dl_pdcd_ingress':DL_PDCP_INGRESS,
+	# 					'dl_pdcd_egress':DL_PDCP_EGRESS,
+	# 					'ul_pdcd_ingress':UL_PDCP_INGRESS,
+	# 					'ul_pdcd_egress':UL_PDCP_EGRESS,
+	# 					'dl_gtpu_ingress':DL_GTPU_INGRESS,
+	# 					'dl_gtpu_egress':DL_GTPU_EGRESS
+	# 				}
+	# 			}]
 
-			client = InfluxDBClient("172.32.3.68",8086,'admin','admin','svt')
-			client.write_points(d)
-			print('Influxdb Insert Data GOOD')
-		except :
-			print('Influxdb Insert Data BAD')
+	# 		client = InfluxDBClient("172.32.3.68",8086,'admin','admin','svt')
+	# 		client.write_points(d)
+	# 		print('Influxdb Insert Data GOOD')
+	# 	except :
+	# 		print('Influxdb Insert Data BAD')
 
 if __name__ == '__main__':
 	while True:
 		func = cu()
 		func._cu_parser()
-		sleep(5)
+		sleep(7)

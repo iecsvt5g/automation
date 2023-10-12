@@ -100,7 +100,9 @@ class phy(object):
 				else:
 					pass
 			cell = str(cell)
-			self.insert_database(influxdbtime, self._ip_parser(), host_name, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr)
+			#self.insert_database(influxdbtime, self._ip_parser(), host_name, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr)
+			self.insert_database(time_list, self._ip_parser(), host_name, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr)
+			
 
 	'''
 	IP Address Parser
@@ -119,52 +121,52 @@ class phy(object):
 	'''
 	Insert into date to MySQL (phpmyadmin)
 	'''
-	# def insert_database(self, time_list, ip, host_name, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr):
-	# 	try:
-	# 		mysql_info = {
-	# 			# 'host': '172.32.3.153',
-	# 			'host': config.get('setting', 'mysql_ip'),
-	# 			'port': 3306,
-	# 			'user': 'svt',
-	# 			'password': '1qaz@WSXiecsvt5g',
-	# 			'db': 'svt'
-	# 		}
-	# 		conn = connect(**mysql_info)
-	# 		cur = conn.cursor()
-	# 		sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, CELL, DL_Tput, UL_Tput_1, UL_Tput_2, UL_BLER, SRS_SNR) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='phy')
-	# 		cur.execute(sql, (time_list, ip, host_name, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr))
-	# 		conn.commit()
-	# 		print('The information is commit to database.')
-	# 	except Exception as e:
-	# 		# raise e
-	# 		pass
+	def insert_database(self, time_list, ip, host_name, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr):
+		try:
+			mysql_info = {
+				# 'host': '172.32.3.153',
+				'host': config.get('setting', 'mysql_ip'),
+				'port': 3306,
+				'user': 'svt',
+				'password': '1qaz@WSXiecsvt5g',
+				'db': 'svt'
+			}
+			conn = connect(**mysql_info)
+			cur = conn.cursor()
+			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, CELL, DL_Tput, UL_Tput_1, UL_Tput_2, UL_BLER, SRS_SNR) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='phy')
+			cur.execute(sql, (time_list, ip, host_name, cell, dl_tput, ul_tput_1, ul_tput_2, ul_bler, srs_snr))
+			conn.commit()
+			print('The information is commit to database.')
+		except Exception as e:
+			# raise e
+			pass
  
 	'''
  	insert into SMO influxdb
   	'''
-	def insert_database(self,TIME , IP, HOST_NAME, CELL, DL_Tput, UL_Tput_1, UL_Tput_2, UL_BLER, SRS_SNR) :
-		try :
-			d= [{
-			"measurement": "phy_parser",
-			"tags": {
-				"ip": IP,
-				"hostname":HOST_NAME,
-				"cell" : CELL
-			},
-			"time": TIME,
-			"fields": { 'dl_1': DL_Tput, 
-						'ul_1': UL_Tput_1,
-						'ul_2': UL_Tput_2,
-						'bler': UL_BLER,
-						'srs_snr': SRS_SNR
-					}
-				}]
+	# def insert_database(self,TIME , IP, HOST_NAME, CELL, DL_Tput, UL_Tput_1, UL_Tput_2, UL_BLER, SRS_SNR) :
+	# 	try :
+	# 		d= [{
+	# 		"measurement": "phy_parser",
+	# 		"tags": {
+	# 			"ip": IP,
+	# 			"hostname":HOST_NAME,
+	# 			"cell" : CELL
+	# 		},
+	# 		"time": TIME,
+	# 		"fields": { 'dl_1': DL_Tput, 
+	# 					'ul_1': UL_Tput_1,
+	# 					'ul_2': UL_Tput_2,
+	# 					'bler': UL_BLER,
+	# 					'srs_snr': SRS_SNR
+	# 				}
+	# 			}]
 
-			client = InfluxDBClient("172.32.3.68",8086,'admin','admin','svt')
-			client.write_points(d)
-			print('Influxdb Insert Data GOOD')
-		except :
-			print('Influxdb Insert Data BAD')
+	# 		client = InfluxDBClient("172.32.3.68",8086,'admin','admin','svt')
+	# 		client.write_points(d)
+	# 		print('Influxdb Insert Data GOOD')
+	# 	except :
+	# 		print('Influxdb Insert Data BAD')
  
  
 if __name__ == '__main__':

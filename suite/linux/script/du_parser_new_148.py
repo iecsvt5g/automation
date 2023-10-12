@@ -1,6 +1,5 @@
-#/usr/bin/python3
 '''
-Created on 2022/10/04
+reated on 2022/10/04
 
 @author: ZL Chen
 @title: DU Parser
@@ -48,7 +47,7 @@ class du(object):
 			cell_tail= 'grep \'cell_idx\' /home/BaiBBU_XSS/BaiBBU_SXSS/DU/bin/logs_gNB_DU | awk \'END{print $(NF)}\''
 			# cell_tail = 'grep \'cell_idx\' logs_gNB_DU_155 | awk \'END{print $(NF)}\''
 			# cell_tail = 'grep \'cell_idx\' logs_gNB_DU_199 | awk \'END{print $(NF)}\''
-			du_tail = 'tail -n 500 /home/BaiBBU_XSS/BaiBBU_SXSS/DU/bin/logs_gNB_DU'
+			du_tail = 'tail -n 900 /home/BaiBBU_XSS/BaiBBU_SXSS/DU/bin/logs_gNB_DU'
 			# du_tail = 'tail -n 500 logs_gNB_DU_155'
 			# du_tail = 'tail -n 500 logs_gNB_DU_199'
 			try:
@@ -87,7 +86,12 @@ class du(object):
 					ind_=[x.start() for x in re.finditer('Timer', re_du)]
 					contentRex_cell = ''
 					a=time()
-					contentRex_cell = re.findall(find_du_cell_str, re_du[ind_[-2]:ind_[-1]])
+					txt_=re_du[ind_[-2]:ind_[-1]]
+					contentRex_cell = re.findall(find_du_cell_str, txt_)
+					DL_MCS_list=re.findall(r'DL_MCS..*\D(\d+)\DP',txt_)
+					DL_MCS = DL_MCS_list[0]
+					#print(re_du[ind_[-2]:ind_[-1]])
+					print(DL_MCS)
 					#contentRex_cell = re.findall(find_du_cell_str, re_du)
 					#print(contentRex_cell)
 					print('----------time take---------')
@@ -157,13 +161,20 @@ class du(object):
 						# print('avgPrbAsgnRateUl', re_contentRex_cell[17])
 						# print('MAC DL traffic ingress', re_contentRex_cell[18])
 							
-						self.insert_database(influxdbtime, ip, host_name, re_contentRex[1], re_contentRex[2], re_contentRex[3], re_contentRex[4], \
+						# self.insert_database(influxdbtime, ip, host_name, re_contentRex[1], re_contentRex[2], re_contentRex[3], re_contentRex[4], \
+						# 	re_contentRex[5], re_contentRex[6], re_contentRex[7], re_contentRex[8], re_contentRex[9], re_contentRex[10], \
+						# 	re_contentRex_cell[19], re_contentRex_cell[0], re_contentRex_cell[1], re_contentRex_cell[2], re_contentRex_cell[3], \
+						# 	re_contentRex_cell[4], re_contentRex_cell[5], re_contentRex_cell[6], re_contentRex_cell[7], re_contentRex_cell[8], \
+						# 	re_contentRex_cell[9], re_contentRex_cell[10], re_contentRex_cell[11], re_contentRex_cell[12], re_contentRex_cell[13], \
+						# 	re_contentRex_cell[14], re_contentRex_cell[15], re_contentRex_cell[16], re_contentRex_cell[17], re_contentRex_cell[18])
+						print(DL_MCS)
+						print(type(DL_MCS))
+						self.insert_database(utc_time, ip, host_name, re_contentRex[1], re_contentRex[2], re_contentRex[3], re_contentRex[4], \
 							re_contentRex[5], re_contentRex[6], re_contentRex[7], re_contentRex[8], re_contentRex[9], re_contentRex[10], \
 							re_contentRex_cell[19], re_contentRex_cell[0], re_contentRex_cell[1], re_contentRex_cell[2], re_contentRex_cell[3], \
 							re_contentRex_cell[4], re_contentRex_cell[5], re_contentRex_cell[6], re_contentRex_cell[7], re_contentRex_cell[8], \
 							re_contentRex_cell[9], re_contentRex_cell[10], re_contentRex_cell[11], re_contentRex_cell[12], re_contentRex_cell[13], \
-							re_contentRex_cell[14], re_contentRex_cell[15], re_contentRex_cell[16], re_contentRex_cell[17], re_contentRex_cell[18])
-		
+							re_contentRex_cell[14], re_contentRex_cell[15], re_contentRex_cell[16], re_contentRex_cell[17], re_contentRex_cell[18],DL_MCS)
 						# print(utc_time, ip, host_name, re_contentRex[1], re_contentRex[2], re_contentRex[3], re_contentRex[4], \
 						# 	re_contentRex[5], re_contentRex[6], re_contentRex[7], re_contentRex[8], re_contentRex[9], re_contentRex[10], \
 						# 	re_contentRex_cell[19], re_contentRex_cell[0], re_contentRex_cell[1], re_contentRex_cell[2], re_contentRex_cell[3], \
@@ -194,85 +205,87 @@ class du(object):
 	'''
 	Insert into date to MySQL (phpmyadmin)
 	'''
-	# def insert_database(self, datetime, ip, host_name, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
-	# 		DL_Ingress, DL_Ingress_PKT, DL_Egress, DL_Egress_PKT, RLCL_DL_UM_Throughput, RLCL_DL_AM_Throughput, \
-	# 		Cell_number, CRC_GOOD, CRC_BAD, UL_MCS_AVG, PUSCH_PWR_0_45, PUSCH_PWR_45_90, PUSCH_PWR_90_135, \
-	# 		PUSCH_PWR_135_180, PUSCH_PWR_180_225, PUSCH_PWR_225_273, ACK, NACK, UL_RANK_1, UL_RANK_2, \
-	# 		UL_Scheduled_Layer_1, UL_Scheduled_Layer_2, macActiveUe, avgPrbAsgnRateDl, avgPrbAsgnRateUl, MAC_DL_traffic_ingress):
-	# 	try:
-	# 		mysql_info = {
-	# 			# 'host': '172.32.3.153',
-	# 			'host': config.get('setting', 'mysql_ip'),
-	# 			'port': 3306,
-	# 			'user': 'svt',
-	# 			'password': '1qaz@WSXiecsvt5g',
-	# 			'db': 'svt'
-	# 		}
-	# 		conn = connect(**mysql_info)
-	# 		cur = conn.cursor()
-	# 		sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
-	# 			DL_Ingress, DL_Ingress_PKT, DL_Egress, DL_Egress_PKT, RLCL_DL_UM_Throughput, RLCL_DL_AM_Throughput, \
-	# 			Cell_number, CRC_GOOD, CRC_BAD, UL_MCS_AVG, PUSCH_PWR_0_45, PUSCH_PWR_45_90, PUSCH_PWR_90_135, \
-	# 			PUSCH_PWR_135_180, PUSCH_PWR_180_225, PUSCH_PWR_225_273, ACK, NACK, UL_RANK_1, UL_RANK_2, \
-	# 			UL_Scheduled_Layer_1, UL_Scheduled_Layer_2, macActiveUe, avgPrbAsgnRateDl, avgPrbAsgnRateUl, MAC_DL_traffic_ingress) \
-	# 		VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='du')
-	# 		# print(sql)
-	# 		print('SQL print done.')
-	# 		cur.execute(sql, (datetime, ip, host_name, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
-	# 			DL_Ingress, DL_Ingress_PKT, DL_Egress, DL_Egress_PKT, RLCL_DL_UM_Throughput, RLCL_DL_AM_Throughput, \
-	# 			Cell_number, CRC_GOOD, CRC_BAD, UL_MCS_AVG, PUSCH_PWR_0_45, PUSCH_PWR_45_90, PUSCH_PWR_90_135, \
-	# 			PUSCH_PWR_135_180, PUSCH_PWR_180_225, PUSCH_PWR_225_273, ACK, NACK, UL_RANK_1, UL_RANK_2, \
-	# 			UL_Scheduled_Layer_1, UL_Scheduled_Layer_2, macActiveUe, avgPrbAsgnRateDl, avgPrbAsgnRateUl, MAC_DL_traffic_ingress))
-	# 		print('SQL execute done.')
-	# 		conn.commit()
-	# 		print('The information is commit to database.')
-	# 	except Exception as e:
-	# 		# raise e
-	# 		pass
-	# 	finally:
-	# 		print('Connection is closed.')
-	# 		conn.close()
+	def insert_database(self, datetime, ip, host_name, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
+			DL_Ingress, DL_Ingress_PKT, DL_Egress, DL_Egress_PKT, RLCL_DL_UM_Throughput, RLCL_DL_AM_Throughput, \
+			Cell_number, CRC_GOOD, CRC_BAD, UL_MCS_AVG, PUSCH_PWR_0_45, PUSCH_PWR_45_90, PUSCH_PWR_90_135, \
+			PUSCH_PWR_135_180, PUSCH_PWR_180_225, PUSCH_PWR_225_273, ACK, NACK, UL_RANK_1, UL_RANK_2, \
+			UL_Scheduled_Layer_1, UL_Scheduled_Layer_2, macActiveUe, avgPrbAsgnRateDl, avgPrbAsgnRateUl, MAC_DL_traffic_ingress,DL_MCS_AVG):
+		try:
+			mysql_info = {
+				# 'host': '172.32.3.153',
+				'host': config.get('setting', 'mysql_ip'),
+				'port': 3306,
+				'user': 'svt',
+				'password': '1qaz@WSXiecsvt5g',
+				'db': 'svt'
+			}
+			conn = connect(**mysql_info)
+			cur = conn.cursor()
+			sql = """INSERT INTO {table}(DateTime , IP, HOST_NAME, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
+				DL_Ingress, DL_Ingress_PKT, DL_Egress, DL_Egress_PKT, RLCL_DL_UM_Throughput, RLCL_DL_AM_Throughput, \
+				Cell_number, CRC_GOOD, CRC_BAD, UL_MCS_AVG, PUSCH_PWR_0_45, PUSCH_PWR_45_90, PUSCH_PWR_90_135, \
+				PUSCH_PWR_135_180, PUSCH_PWR_180_225, PUSCH_PWR_225_273, ACK, NACK, UL_RANK_1, UL_RANK_2, \
+				UL_Scheduled_Layer_1, UL_Scheduled_Layer_2, macActiveUe, avgPrbAsgnRateDl, avgPrbAsgnRateUl, \
+				MAC_DL_traffic_ingress,DL_MCS_AVG) \
+			VALUES(%s, %s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)""".format(table='du')
+			# print(sql)
+			print('SQL print done.')
+			cur.execute(sql, (datetime, ip, host_name, UL_Ingress, UL_Ingress_PKT, UL_Egress, UL_Egress_PKT, \
+				DL_Ingress, DL_Ingress_PKT, DL_Egress, DL_Egress_PKT, RLCL_DL_UM_Throughput, RLCL_DL_AM_Throughput, \
+				Cell_number, CRC_GOOD, CRC_BAD, UL_MCS_AVG, PUSCH_PWR_0_45, PUSCH_PWR_45_90, PUSCH_PWR_90_135, \
+				PUSCH_PWR_135_180, PUSCH_PWR_180_225, PUSCH_PWR_225_273, ACK, NACK, UL_RANK_1, UL_RANK_2, \
+				UL_Scheduled_Layer_1, UL_Scheduled_Layer_2, macActiveUe, avgPrbAsgnRateDl, avgPrbAsgnRateUl,\
+				 MAC_DL_traffic_ingress,DL_MCS_AVG))
+			print('SQL execute done.')
+			conn.commit()
+			print('The information is commit to database.')
+		except Exception as e:
+			print(e)
+			pass
+		finally:
+			print('Connection is closed.')
+			conn.close()
 
-	'''
-	insert into SMO influxdb
- 	'''
-	def insert_database(self,TIME , IP, HOST_NAME, UL_INGRESS, UL_INGRESS_PKT, UL_EGRESS, 
-                     UL_EGRESS_PKT, DL_INGRESS, DL_INGRESS_PKT, DL_EGRESS, DL_EGRESS_PKT, 
-                     RLCL_DL_UM_THROUGHPUT, RLCL_DL_AM_THROUGHPUT, CELL_NUMBER, CRC_GOOD, 
-                     CRC_BAD, UL_MCS_AVG, PUSCH_PWR_0_45, PUSCH_PWR_45_90, PUSCH_PWR_90_135, 
-	 				 PUSCH_PWR_135_180, PUSCH_PWR_180_225, PUSCH_PWR_225_273, ACK, NACK, 
-       				 UL_RANK_1, UL_RANK_2, UL_SCHEDULED_Layer_1, UL_SCHEDULED_Layer_2, 
-            		 MACACTIVEUE, avgPrbAsgnRateDL, avgPrbAsgnRateUL, MAC_DL_traffic_ingress) :
-		try :
-			d= [{
-			"measurement": "du_parser",
-			"tags": {
-				"ip": IP,
-				"hostname":HOST_NAME,
-				"CELL_NUMBER":CELL_NUMBER
-			},
-			"time": TIME,
-			"fields": { 'ul_ingress':UL_INGRESS,'ul_ingress_pkt':UL_INGRESS_PKT,
-						'ul_egress':UL_EGRESS,'ul_egress_pkt':UL_EGRESS_PKT,
-						'dl_ingress':DL_INGRESS,'dl_ingress_pkt':DL_INGRESS_PKT,
-						'dl_egress':DL_EGRESS,'dl_egress_pkt':DL_EGRESS_PKT,
-						'rlcl_dl_um_throughput':RLCL_DL_UM_THROUGHPUT,'rlcl_dl_am_throughput':RLCL_DL_AM_THROUGHPUT,
-						'crc_good':CRC_GOOD,'crc_bad':CRC_BAD,
-						'ul_mcs_avg':UL_MCS_AVG,
-						'pusch_pwr_0_45':PUSCH_PWR_0_45,'pusch_pwr_45_90':PUSCH_PWR_45_90,'pusch_pwr_90_135':PUSCH_PWR_90_135,
-						'pusch_pwr_135_180':PUSCH_PWR_135_180,'pusch_pwr_180_225':PUSCH_PWR_180_225,'pusch_pwr_225_273':PUSCH_PWR_225_273,
-						'ack':ACK,'nack':NACK,'ul_rank_1':UL_RANK_1,'ul_rank_2':UL_RANK_2,
-						'ul_scheduled_layer_1':UL_SCHEDULED_Layer_1,'ul_scheduled_layer_2':UL_SCHEDULED_Layer_2,
-						'mac_active_ue':MACACTIVEUE,'avg_prb_asgn_rate_dl':avgPrbAsgnRateDL,'avg_prb_asgn_rate_ul':avgPrbAsgnRateUL,
-						'mac_dl_traffic_ingress':MAC_DL_traffic_ingress
-					}
-				}]
+	# '''
+	# insert into SMO influxdb
+ 	# '''
+	# def insert_database(self,TIME , IP, HOST_NAME, UL_INGRESS, UL_INGRESS_PKT, UL_EGRESS, 
+    #                  UL_EGRESS_PKT, DL_INGRESS, DL_INGRESS_PKT, DL_EGRESS, DL_EGRESS_PKT, 
+    #                  RLCL_DL_UM_THROUGHPUT, RLCL_DL_AM_THROUGHPUT, CELL_NUMBER, CRC_GOOD, 
+    #                  CRC_BAD, UL_MCS_AVG, PUSCH_PWR_0_45, PUSCH_PWR_45_90, PUSCH_PWR_90_135, 
+	#  				 PUSCH_PWR_135_180, PUSCH_PWR_180_225, PUSCH_PWR_225_273, ACK, NACK, 
+    #    				 UL_RANK_1, UL_RANK_2, UL_SCHEDULED_Layer_1, UL_SCHEDULED_Layer_2, 
+    #         		 MACACTIVEUE, avgPrbAsgnRateDL, avgPrbAsgnRateUL, MAC_DL_traffic_ingress) :
+	# 	try :
+	# 		d= [{
+	# 		"measurement": "du_parser",
+	# 		"tags": {
+	# 			"ip": IP,
+	# 			"hostname":HOST_NAME,
+	# 			"CELL_NUMBER":CELL_NUMBER
+	# 		},
+	# 		"time": TIME,
+	# 		"fields": { 'ul_ingress':UL_INGRESS,'ul_ingress_pkt':UL_INGRESS_PKT,
+	# 					'ul_egress':UL_EGRESS,'ul_egress_pkt':UL_EGRESS_PKT,
+	# 					'dl_ingress':DL_INGRESS,'dl_ingress_pkt':DL_INGRESS_PKT,
+	# 					'dl_egress':DL_EGRESS,'dl_egress_pkt':DL_EGRESS_PKT,
+	# 					'rlcl_dl_um_throughput':RLCL_DL_UM_THROUGHPUT,'rlcl_dl_am_throughput':RLCL_DL_AM_THROUGHPUT,
+	# 					'crc_good':CRC_GOOD,'crc_bad':CRC_BAD,
+	# 					'ul_mcs_avg':UL_MCS_AVG,
+	# 					'pusch_pwr_0_45':PUSCH_PWR_0_45,'pusch_pwr_45_90':PUSCH_PWR_45_90,'pusch_pwr_90_135':PUSCH_PWR_90_135,
+	# 					'pusch_pwr_135_180':PUSCH_PWR_135_180,'pusch_pwr_180_225':PUSCH_PWR_180_225,'pusch_pwr_225_273':PUSCH_PWR_225_273,
+	# 					'ack':ACK,'nack':NACK,'ul_rank_1':UL_RANK_1,'ul_rank_2':UL_RANK_2,
+	# 					'ul_scheduled_layer_1':UL_SCHEDULED_Layer_1,'ul_scheduled_layer_2':UL_SCHEDULED_Layer_2,
+	# 					'mac_active_ue':MACACTIVEUE,'avg_prb_asgn_rate_dl':avgPrbAsgnRateDL,'avg_prb_asgn_rate_ul':avgPrbAsgnRateUL,
+	# 					'mac_dl_traffic_ingress':MAC_DL_traffic_ingress
+	# 				}
+	# 			}]
 
-			client = InfluxDBClient("172.32.3.68",8086,'admin','admin','svt')
-			client.write_points(d)
-			print('Influxdb Insert Data GOOD')
-		except :
-			print('Influxdb Insert Data BAD')
+	# 		client = InfluxDBClient("172.32.3.68",8086,'admin','admin','svt')
+	# 		client.write_points(d)
+	# 		print('Influxdb Insert Data GOOD')
+	# 	except :
+	# 		print('Influxdb Insert Data BAD')
 
 
 
@@ -282,3 +295,4 @@ if __name__ == '__main__':
 		func = du()
 		func._du_parser()
 		sleep(10)
+
